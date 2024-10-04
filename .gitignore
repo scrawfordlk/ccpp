@@ -1,0 +1,8 @@
+*.[oda]
+*.obj
+*.out
+*.gch
+programm
+*.exe
+*.dat
+*~
