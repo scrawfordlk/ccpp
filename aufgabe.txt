@@ -1,0 +1,12 @@
+
+programm personen.dat stand.dat vorname nachname geburtsjahr
+
+Ermittle zu der Person alle Blutsverwandten und gib diese nach
+Geburtsjahr, Nachname und Vorname geordnet in die Datei verwandte.dat
+aus.
+
+Tipp zur Implementierung: Markiere Eltern, Großeltern, usw. rekursiv
+als Vorfahren.  Markiere dann alle Kinder von Vorfahren (oder
+Nachfahren von Vorfahren) als Nachfahren.  Wiederhole das solange, bis
+niemand mehr dazukommt.
+
