@@ -1,6 +1,8 @@
 #include <stdio.h>
 
-// defines a unique identification for a Person
+/**
+ * unique identification for a Person
+ */
 typedef struct Id {
     char *firstName;
     char *lastName;
@@ -33,4 +35,4 @@ void freePeople(People *people);
 static char *getWord(FILE *filePointer);
 People *readPeople(char *fileName);
 
-int comparePerson(Person *personA, Person *personB);
+static int comparePerson(Person *personA, Person *personB);

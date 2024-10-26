@@ -95,6 +95,7 @@ int main(void) {
     printPeople(people);
 }
 
+// TODO: implement
 /**
  * receives pointer to sorted People struct, the unique identification of a Person (first name, last
  * name and birthday) and returns a pointer to this person. Returns NULL, if this Person doesn't
@@ -104,17 +105,19 @@ Person *getPerson(People *people, char *firstName, char *lastName, char *birthda
     return 0;
 }
 
+// TODO: implement
 /*
  * sorts the People struct that people points to
  */
 void sortPeople(People *people) {}
 
+// TODO: test
 /**
  * compares a Person A to a Person B and returns -1, 0 or 1 if Person A is smaller, equal or larger
  * than Person B
  * where a Person is sorted according to (in order) their birthday, last name, first name
  */
-int comparePerson(Person *personA, Person *personB) {
+static int comparePerson(Person *personA, Person *personB) {
     int cmp = strcmp(personA->id->birthday, personB->id->birthday);
     if (cmp != 0) {
         return cmp;
@@ -128,10 +131,11 @@ int comparePerson(Person *personA, Person *personB) {
     return strcmp(personA->id->firstName, personB->id->firstName);
 }
 
+// TODO: Implement
 /**
  * swaps pointers of two different Person structs
  */
-void swapPerson(Person **personA, Person **personB) {}
+static void swapPerson(Person **personA, Person **personB) {}
 
 /**
  * create a new Id and return a pointer to it
@@ -174,6 +178,7 @@ People *newPeople(int len, Person **list) {
     return people;
 }
 
+// TODO: test
 /**
  * frees memory from a People struct
  */
