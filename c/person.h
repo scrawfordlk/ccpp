@@ -35,4 +35,6 @@ void freePeople(People *people);
 static char *getWord(FILE *filePointer);
 People *readPeople(char *fileName);
 
+Person *getPerson(People *people, char *firstName, char *lastName, char *birthday);
 static int comparePerson(Person *personA, Person *personB);
+static void swapPerson(Person **personA, Person **personB);

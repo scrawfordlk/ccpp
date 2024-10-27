@@ -83,26 +83,48 @@ static char *getWord(FILE *filePointer) {
 void printPeople(People *people) {
     for (int i = 0; i < people->len; i++) {
         Person *person = people->list[i];
-        printf("%s %s %s %s %s %s %s %s %s\n", person->id->firstName, person->id->lastName,
-               person->id->birthday, person->fatherId->firstName, person->fatherId->lastName,
-               person->fatherId->birthday, person->motherId->firstName, person->motherId->lastName,
-               person->motherId->birthday);
+        printf("%p %s %s %s %s %s %s %s %s %s\n", person, person->id->firstName,
+               person->id->lastName, person->id->birthday, person->fatherId->firstName,
+               person->fatherId->lastName, person->fatherId->birthday, person->motherId->firstName,
+               person->motherId->lastName, person->motherId->birthday);
     }
 }
 
+// for testing purposes
 int main(void) {
     People *people = readPeople("personen.dat");
     printPeople(people);
+    Person *someone = getPerson(people, "Cynthia", "Hohlbichler", "1875");
+    Person *someone2 = getPerson(people, "Karl", "Ranseier", "1925");
+    printf("%p %s %s\n", someone, someone->id->firstName, someone->id->lastName);
+    printf("%p %s %s\n", someone2, someone2->id->firstName, someone2->id->lastName);
+    puts("----------------");
+
+    swapPerson(&people->list[2], &people->list[3]);
+    printf("%p %s %s\n", someone, someone->id->firstName, someone->id->lastName);
+    printf("%p %s %s\n", someone2, someone2->id->firstName, someone2->id->lastName);
+
+    puts("----------------");
+    puts("----------------");
+    printPeople(people);
 }
 
-// TODO: implement
 /**
  * receives pointer to sorted People struct, the unique identification of a Person (first name, last
- * name and birthday) and returns a pointer to this person. Returns NULL, if this Person doesn't
- * exist
+ * name and birthday) and returns a pointer to this person.
+ *
+ * Returns NULL, if this Person doesn't exist
  */
 Person *getPerson(People *people, char *firstName, char *lastName, char *birthday) {
-    return 0;
+    for (int i = 0; i < people->len; i++) {
+        if (strcmp(people->list[i]->id->firstName, firstName) == 0 &&
+            strcmp(people->list[i]->id->lastName, lastName) == 0 &&
+            strcmp(people->list[i]->id->birthday, birthday) == 0) {
+            return people->list[i];
+        }
+    }
+
+    return NULL;
 }
 
 // TODO: implement
@@ -111,11 +133,10 @@ Person *getPerson(People *people, char *firstName, char *lastName, char *birthda
  */
 void sortPeople(People *people) {}
 
-// TODO: test
 /**
- * compares a Person A to a Person B and returns -1, 0 or 1 if Person A is smaller, equal or larger
- * than Person B
- * where a Person is sorted according to (in order) their birthday, last name, first name
+ * compares a Person A to a Person B and returns integer <, == or > than 0 if Person A is smaller,
+ * equal or larger than Person B where a Person is sorted according to (in order) their birthday,
+ * last name, first name
  */
 static int comparePerson(Person *personA, Person *personB) {
     int cmp = strcmp(personA->id->birthday, personB->id->birthday);
@@ -131,11 +152,16 @@ static int comparePerson(Person *personA, Person *personB) {
     return strcmp(personA->id->firstName, personB->id->firstName);
 }
 
-// TODO: Implement
+// TODO: Works, but is too complicated to use.
+// rewrite it so that you only need the indexes in the People struct
 /**
- * swaps pointers of two different Person structs
+ * swaps pointers of two Person structs
  */
-static void swapPerson(Person **personA, Person **personB) {}
+static void swapPerson(Person **personA, Person **personB) {
+    Person *tmp = *personA;
+    *personA = *personB;
+    *personB = tmp;
+}
 
 /**
  * create a new Id and return a pointer to it
