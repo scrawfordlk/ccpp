@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+// TODO: refactor the reallocation and change implementation details
+// to reduce number of realloc calls by setting a standard size for the array
+// and then resizing it by factor 2 whenever it is full
 /**
  * returns a pointer to a People structure of all people in the given file
  */
@@ -9,10 +12,11 @@ People *readPeople(char *fileName) {
 
     FILE *filePointer = fopen(fileName, "r");
     if (filePointer == NULL) {
-        fprintf(stderr, "couldn't open %s", fileName);
+        fprintf(stderr, "couldn't open %s\n", fileName);
         exit(1);
     }
 
+    // TODO: change this
     int len = 0;
     Person **personList = malloc(sizeof(Person *) * len); // dynamic array of Person pointers
     if (personList == NULL) {
@@ -44,6 +48,7 @@ People *readPeople(char *fileName) {
         birthday = getWord(filePointer);
         motherId = newId(firstName, lastName, birthday);
 
+        // TODO: change this
         // resize array and add new Person
         len++;
         personList = realloc(personList, sizeof(Person *) * len);
