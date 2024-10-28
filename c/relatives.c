@@ -1,3 +1,7 @@
+#include "relatives.h"
+#include "person.h"
+#include "people.h"
+
 /**
 * writes a sorted People struct to a file
 */

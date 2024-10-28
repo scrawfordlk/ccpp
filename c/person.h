@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 /**
  * unique identification for a Person
  */
@@ -19,22 +17,7 @@ typedef struct Person {
     Id *motherId;
 } Person;
 
-/**
- * struct that stores array of Person pointers and its length
- */
-typedef struct People {
-    int len;
-    Person **list;
-} People;
-
 Id *newId(char *firstName, char *lastName, char *birthday);
 Person *newPerson(Id *id, Id *fatherId, Id *motherId);
-People *newPeople(int len, Person **list);
-void freePeople(People *people);
-
-static char *getWord(FILE *filePointer);
-People *readPeople(char *fileName);
-
-Person *getPerson(People *people, char *firstName, char *lastName, char *birthday);
 static int comparePerson(Person *personA, Person *personB);
-static void swapPerson(Person **personA, Person **personB);
+static void swapPerson(People *people, int i, int j);
