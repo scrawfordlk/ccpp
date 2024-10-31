@@ -128,15 +128,15 @@ People *newPeople() {
         exit(1);
     }
     people->currentLen = 0;
-    people->maxLen = 10;
-    people->list = malloc(sizeof(Person *) * people->maxLen);
+    people->capacity = 10;
+    people->list = malloc(sizeof(Person *) * people->capacity);
     return people;
 }
 
 static void addToPeople(People *people, Person *person) {
-    if (people->currentLen == people->maxLen) {
-        people->maxLen *= 2;
-        people->list = realloc(people->list, sizeof(Person *) * people->maxLen);
+    if (people->currentLen == people->capacity) {
+        people->capacity *= 2;
+        people->list = realloc(people->list, sizeof(Person *) * people->capacity);
         if (people->list == NULL) {
             exit(1);
         }

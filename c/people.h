@@ -8,7 +8,7 @@
  * struct that stores array of Person pointers and its length
  */
 typedef struct {
-    int maxLen;
+    int capacity;
     int currentLen;
     Person **list;
 } People;
