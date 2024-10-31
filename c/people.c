@@ -1,5 +1,5 @@
 #include "people.h"
-#include <stdio.h>
+#include "string.h"
 #include <stdlib.h>
 
 // TODO: refactor the reallocation and change implementation details
@@ -85,13 +85,36 @@ static char *getWord(FILE *filePointer) {
     return word;
 }
 
+/**
+ * receives pointer to sorted People struct, the unique identification of a Person (first name, last
+ * name and birthday) and returns a pointer to this person.
+ *
+ * Returns NULL, if this Person doesn't exist
+ */
+Person *getPerson(People *people, char *firstName, char *lastName, char *birthday) {
+    for (int i = 0; i < people->len; i++) {
+        if (strcmp(people->list[i]->id->firstName, firstName) == 0 &&
+            strcmp(people->list[i]->id->lastName, lastName) == 0 &&
+            strcmp(people->list[i]->id->birthday, birthday) == 0) {
+            return people->list[i];
+        }
+    }
+
+    return NULL;
+}
+
 /*
  * sorts the People struct that people points to
  */
 void sortPeople(People *people) {
-    while (!isSorted(people)) {
+    int isSorted = 0;
+
+    while (!isSorted) {
+        isSorted = 1;
+
         for (int i = 0; i < people->len - 1; i++) {
             if (comparePerson(people->list[i], people->list[i + 1]) > 0) {
+                isSorted = 0;
                 swapPerson(people, i, i + 1);
             }
         }
@@ -101,23 +124,10 @@ void sortPeople(People *people) {
 /**
  * swaps pointers of two Person structs
  */
-static void swapPerson(People *people, int i, int j) {
+void swapPerson(People *people, int i, int j) {
     Person *tmp = people->list[i];
     people->list[i] = people->list[j];
     people->list[j] = tmp;
-}
-
-/**
- * retuns 1 if People struct is sorted, 0 otherwise
- */
-static int isSorted(People *people) {
-    for (int i = 0; i < people->len - 1; i++) {
-        if (comparePerson(people->list[i], people->list[i + 1]) > 0) {
-            return 0;
-        }
-    }
-
-    return 1;
 }
 
 /**
@@ -139,23 +149,8 @@ People *newPeople(int len, Person **list) {
  */
 void freePeople(People *people) {
     for (int i = 0; i < people->len; i++) {
-
-        free(people->list[i]->id->firstName);
-        free(people->list[i]->id->lastName);
-        free(people->list[i]->id->birthday);
-        free(people->list[i]->id);
-
-        free(people->list[i]->fatherId->firstName);
-        free(people->list[i]->fatherId->lastName);
-        free(people->list[i]->fatherId->birthday);
-        free(people->list[i]->fatherId);
-
-        free(people->list[i]->motherId->firstName);
-        free(people->list[i]->motherId->lastName);
-        free(people->list[i]->motherId->birthday);
-        free(people->list[i]->motherId);
-
-        free(people->list[i]);
+        freePerson(people->list[i]);
     }
+    free(people->list);
     free(people);
 }

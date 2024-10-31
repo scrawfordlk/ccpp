@@ -1,5 +1,6 @@
 #include "people.h"
-#include <stdio.h>
+#include "person.h"
+#include "stdio.h"
 #include <stdlib.h>
 
 /**
