@@ -20,4 +20,3 @@ typedef struct Person {
 Id *newId(char *firstName, char *lastName, char *birthday);
 Person *newPerson(Id *id, Id *fatherId, Id *motherId);
 static int comparePerson(Person *personA, Person *personB);
-static void swapPerson(People *people, int i, int j);

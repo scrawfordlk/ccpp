@@ -1,29 +1,7 @@
-#include "person.h"
+#include "people.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-// for testing purposes
-void printPeople(People *people) {
-    for (int i = 0; i < people->len; i++) {
-        Person *person = people->list[i];
-        printf("%p %s %s %s %s %s %s %s %s %s\n", person, person->id->firstName,
-               person->id->lastName, person->id->birthday, person->fatherId->firstName,
-               person->fatherId->lastName, person->fatherId->birthday, person->motherId->firstName,
-               person->motherId->lastName, person->motherId->birthday);
-    }
-}
-
-// for testing purposes
-int main(void) {
-    People *people = readPeople("personen.dat");
-    printPeople(people);
-    puts("----------------");
-    puts("----------------");
-    sortPeople(people);
-    printPeople(people);
-    printf("%i", isSorted(people));
-    writePeople(people, "verwandte.dat");
-}
 
 /**
  * receives pointer to People struct, the unique identification of a Person (first name, last
@@ -63,15 +41,6 @@ static int comparePerson(Person *personA, Person *personB) {
 }
 
 /**
- * swaps pointers of two Person structs
- */
-static void swapPerson(People *people, int i, int j) {
-    Person *tmp = people->list[i];
-    people->list[i] = people->list[j];
-    people->list[j] = tmp;
-}
-
-/**
  * create a new Id and return a pointer to it
  */
 Id *newId(char *firstName, char *lastName, char *birthday) {
@@ -98,4 +67,3 @@ Person *newPerson(Id *id, Id *fatherId, Id *motherId) {
     person->motherId = motherId;
     return person;
 }
-

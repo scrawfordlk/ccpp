@@ -1,10 +1,10 @@
-#include "relatives.h"
-#include "person.h"
 #include "people.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 /**
-* writes a sorted People struct to a file
-*/
+ * writes a sorted People struct to a file
+ */
 void writePeople(People *people, char *fileName) {
     FILE *filePointer = fopen(fileName, "w");
     if (filePointer == NULL) {

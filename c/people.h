@@ -1,3 +1,6 @@
+#include "person.h"
+#include <stdio.h>
+
 /**
  * struct that stores array of Person pointers and its length
  */
@@ -12,4 +15,3 @@ void sortPeople(People *people);
 static int isSorted(People *people);
 People *newPeople(int len, Person **list);
 void freePeople(People *people);
-

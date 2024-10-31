@@ -1,5 +1,6 @@
 #include "people.h"
-#include "person.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 // TODO: refactor the reallocation and change implementation details
 // to reduce number of realloc calls by setting a standard size for the array
@@ -98,8 +99,17 @@ void sortPeople(People *people) {
 }
 
 /**
-* retuns 1 if People struct is sorted, 0 otherwise
-*/
+ * swaps pointers of two Person structs
+ */
+static void swapPerson(People *people, int i, int j) {
+    Person *tmp = people->list[i];
+    people->list[i] = people->list[j];
+    people->list[j] = tmp;
+}
+
+/**
+ * retuns 1 if People struct is sorted, 0 otherwise
+ */
 static int isSorted(People *people) {
     for (int i = 0; i < people->len - 1; i++) {
         if (comparePerson(people->list[i], people->list[i + 1]) > 0) {
