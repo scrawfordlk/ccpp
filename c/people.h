@@ -8,15 +8,17 @@
  * struct that stores array of Person pointers and its length
  */
 typedef struct {
-    int len;
+    int maxLen;
+    int currentLen;
     Person **list;
 } People;
 
-People *newPeople(int len, Person **list);
+People *newPeople();
 void freePeople(People *people);
 
 static char *getWord(FILE *filePointer);
 People *readPeople(char *fileName);
+static void addToPeople(People *people, Person *person);
 
 Person *getPerson(People *people, char *firstName, char *lastName, char *birthday);
 void sortPeople(People *people);

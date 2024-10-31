@@ -1,4 +1,5 @@
 #include "people.h"
+#include "person.h"
 #include "string.h"
 #include <stdlib.h>
 
@@ -16,12 +17,7 @@ People *readPeople(char *fileName) {
         exit(1);
     }
 
-    // TODO: change this
-    int len = 0;
-    Person **personList = malloc(sizeof(Person *) * len); // dynamic array of Person pointers
-    if (personList == NULL) {
-        exit(1);
-    }
+    People *people = newPeople();
 
     Id *personId, *fatherId, *motherId;
     char c, *firstName, *lastName, *birthday;
@@ -33,8 +29,8 @@ People *readPeople(char *fileName) {
         lastName = getWord(filePointer);
         getWord(filePointer); // skip gender
         birthday = getWord(filePointer);
-        personId = newId(firstName, lastName, birthday);
         getWord(filePointer); // skip year of death
+        personId = newId(firstName, lastName, birthday);
 
         // father
         firstName = getWord(filePointer);
@@ -48,18 +44,11 @@ People *readPeople(char *fileName) {
         birthday = getWord(filePointer);
         motherId = newId(firstName, lastName, birthday);
 
-        // TODO: change this
-        // resize array and add new Person
-        len++;
-        personList = realloc(personList, sizeof(Person *) * len);
-        if (personList == NULL) {
-            exit(1);
-        }
-        personList[len - 1] = newPerson(personId, fatherId, motherId);
+        addToPeople(people, newPerson(personId, fatherId, motherId));
     }
 
     fclose(filePointer);
-    return newPeople(len, personList);
+    return people;
 }
 
 /**
@@ -92,7 +81,7 @@ static char *getWord(FILE *filePointer) {
  * Returns NULL, if this Person doesn't exist
  */
 Person *getPerson(People *people, char *firstName, char *lastName, char *birthday) {
-    for (int i = 0; i < people->len; i++) {
+    for (int i = 0; i < people->currentLen; i++) {
         if (strcmp(people->list[i]->id->firstName, firstName) == 0 &&
             strcmp(people->list[i]->id->lastName, lastName) == 0 &&
             strcmp(people->list[i]->id->birthday, birthday) == 0) {
@@ -112,7 +101,7 @@ void sortPeople(People *people) {
     while (!isSorted) {
         isSorted = 1;
 
-        for (int i = 0; i < people->len - 1; i++) {
+        for (int i = 0; i < people->currentLen - 1; i++) {
             if (comparePerson(people->list[i], people->list[i + 1]) > 0) {
                 isSorted = 0;
                 swapPerson(people, i, i + 1);
@@ -133,14 +122,26 @@ void swapPerson(People *people, int i, int j) {
 /**
  * create a new People struct and return pointer to it
  */
-People *newPeople(int len, Person **list) {
+People *newPeople() {
     People *people = malloc(sizeof(People));
     if (people == NULL) {
         exit(1);
     }
-    people->len = len;
-    people->list = list;
+    people->currentLen = 0;
+    people->maxLen = 10;
+    people->list = malloc(sizeof(Person *) * people->maxLen);
     return people;
+}
+
+static void addToPeople(People *people, Person *person) {
+    if (people->currentLen == people->maxLen) {
+        people->maxLen *= 2;
+        people->list = realloc(people->list, sizeof(Person *) * people->maxLen);
+        if (people->list == NULL) {
+            exit(1);
+        }
+    }
+    people->list[people->currentLen++] = person;
 }
 
 // TODO: test
@@ -148,7 +149,7 @@ People *newPeople(int len, Person **list) {
  * frees memory from a People struct
  */
 void freePeople(People *people) {
-    for (int i = 0; i < people->len; i++) {
+    for (int i = 0; i < people->currentLen; i++) {
         freePerson(people->list[i]);
     }
     free(people->list);

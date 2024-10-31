@@ -14,7 +14,7 @@ void writePeople(People *people, char *fileName) {
     }
 
     Id *id;
-    for (int i = 0; i < people->len; i++) {
+    for (int i = 0; i < people->currentLen; i++) {
         id = people->list[i]->id;
         fprintf(filePointer, "%s %s %s\n", id->birthday, id->lastName, id->firstName);
     }

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 void printPeople(People *people) {
-    for (int i = 0; i < people->len; i++) {
+    for (int i = 0; i < people->currentLen; i++) {
         Person *person = people->list[i];
         printf("%p %s %s %s %s %s %s %s %s %s\n", person, person->id->firstName,
                person->id->lastName, person->id->birthday, person->fatherId->firstName,
