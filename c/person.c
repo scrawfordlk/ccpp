@@ -1,5 +1,6 @@
 #include "person.h"
 #include "id.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -23,6 +24,20 @@ int comparePerson(Person *personA, Person *personB) {
 }
 
 /**
+ * returns true if this Person is this Person as specified by their first name, last name and
+ * birthday
+ */
+int isThisPerson(Person *person, char *firstName, char *lastName, char *birthday) {
+    if (strcmp(person->id->firstName, firstName) == 0 &&
+        strcmp(person->id->lastName, lastName) == 0 &&
+        strcmp(person->id->birthday, birthday) == 0) {
+        return 1;
+    }
+
+    return 0;
+}
+
+/**
  * created a new Person and return pointer to it
  */
 Person *newPerson(Id *id, Id *fatherId, Id *motherId) {
@@ -33,6 +48,7 @@ Person *newPerson(Id *id, Id *fatherId, Id *motherId) {
     person->id = id;
     person->fatherId = fatherId;
     person->motherId = motherId;
+    person->marked = 0;
     return person;
 }
 

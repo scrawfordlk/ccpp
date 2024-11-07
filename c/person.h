@@ -11,9 +11,11 @@ typedef struct Person {
     Id *id;
     Id *fatherId;
     Id *motherId;
+    int marked;
 } Person;
 
 int comparePerson(Person *personA, Person *personB);
+int isThisPerson(Person *person, char *firstName, char *lastName, char *birthday);
 Person *newPerson(Id *id, Id *fatherId, Id *motherId);
 void freePerson(Person *person);
 
