@@ -14,13 +14,15 @@ typedef struct {
 } People;
 
 People *newPeople();
+void addToPeople(People *people, Person *person);
 void freePeople(People *people);
 
-static char *getWord(FILE *filePointer);
 People *readPeople(char *fileName);
-static void addToPeople(People *people, Person *person);
+static char *getWord(FILE *filePointer);
+void writePeople(People *people, char *fileName);
 
 Person *getPerson(People *people, char *firstName, char *lastName, char *birthday);
+
 void sortPeople(People *people);
 void swapPerson(People *people, int i, int j);
 
