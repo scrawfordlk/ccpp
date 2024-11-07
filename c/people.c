@@ -3,14 +3,11 @@
 #include "string.h"
 #include <stdlib.h>
 
-// TODO: refactor the reallocation and change implementation details
-// to reduce number of realloc calls by setting a standard size for the array
-// and then resizing it by factor 2 whenever it is full
+// TODO: Refactor it more
 /**
  * returns a pointer to a People structure of all people in the given file
  */
 People *readPeople(char *fileName) {
-
     FILE *filePointer = fopen(fileName, "r");
     if (filePointer == NULL) {
         fprintf(stderr, "couldn't open %s\n", fileName);
@@ -75,6 +72,25 @@ static char *getWord(FILE *filePointer) {
 }
 
 /**
+ * writes a sorted People struct to a file
+ */
+void writePeople(People *people, char *fileName) {
+    FILE *filePointer = fopen(fileName, "w");
+    if (filePointer == NULL) {
+        printf("couldn't open %s", fileName);
+        exit(1);
+    }
+
+    Id *id;
+    for (int i = 0; i < people->currentLen; i++) {
+        id = people->list[i]->id;
+        fprintf(filePointer, "%s %s %s\n", id->birthday, id->lastName, id->firstName);
+    }
+
+    fclose(filePointer);
+}
+
+/**
  * receives pointer to sorted People struct, the unique identification of a Person (first name, last
  * name and birthday) and returns a pointer to this person.
  *
@@ -111,7 +127,7 @@ void sortPeople(People *people) {
 }
 
 /**
- * swaps pointers of two Person structs
+ * swaps pointers of two Person structs in a People struct
  */
 void swapPerson(People *people, int i, int j) {
     Person *tmp = people->list[i];
@@ -133,7 +149,7 @@ People *newPeople() {
     return people;
 }
 
-static void addToPeople(People *people, Person *person) {
+void addToPeople(People *people, Person *person) {
     if (people->currentLen == people->capacity) {
         people->capacity *= 2;
         people->list = realloc(people->list, sizeof(Person *) * people->capacity);
@@ -141,6 +157,7 @@ static void addToPeople(People *people, Person *person) {
             exit(1);
         }
     }
+
     people->list[people->currentLen++] = person;
 }
 
