@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
     People *relatives = getRelatives(people, firstName, lastName, birthday);
     sortPeople(relatives);
     printPeople(relatives);
-    writePeople(relatives, "verwandte.dat");
+    writePeople(relatives, "garbo.dat");
     freePeople(people);
     freeRelatives(relatives);
 }

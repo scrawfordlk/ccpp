@@ -98,16 +98,14 @@ void writePeople(People *people, char *fileName) {
  */
 Person *getPerson(People *people, char *firstName, char *lastName, char *birthday) {
     for (int i = 0; i < people->currentLen; i++) {
-        if (strcmp(people->list[i]->id->firstName, firstName) == 0 &&
-            strcmp(people->list[i]->id->lastName, lastName) == 0 &&
-            strcmp(people->list[i]->id->birthday, birthday) == 0) {
+        if (isThisPerson(people->list[i], firstName, lastName, birthday)) {
             return people->list[i];
         }
     }
-
     return NULL;
 }
 
+// TODO: Use qsort
 /*
  * sorts the People struct that people points to
  */
@@ -164,7 +162,6 @@ void addToPeople(People *people, Person *person) {
     people->list[people->currentLen++] = person;
 }
 
-// TODO: test
 /**
  * frees memory from a People struct
  */

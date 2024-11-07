@@ -10,17 +10,17 @@
  * last name, first name
  */
 int comparePerson(Person *personA, Person *personB) {
-    int cmp = strcmp(personA->id->birthday, personB->id->birthday);
+    int cmp = strncmp(personA->id->birthday, personB->id->birthday, 100);
     if (cmp != 0) {
         return cmp;
     }
 
-    cmp = strcmp(personA->id->lastName, personB->id->lastName);
+    cmp = strncmp(personA->id->lastName, personB->id->lastName, 100);
     if (cmp != 0) {
         return cmp;
     }
 
-    return strcmp(personA->id->firstName, personB->id->firstName);
+    return strncmp(personA->id->firstName, personB->id->firstName, 100);
 }
 
 /**
@@ -28,17 +28,16 @@ int comparePerson(Person *personA, Person *personB) {
  * birthday
  */
 int isThisPerson(Person *person, char *firstName, char *lastName, char *birthday) {
-    if (strcmp(person->id->firstName, firstName) == 0 &&
-        strcmp(person->id->lastName, lastName) == 0 &&
-        strcmp(person->id->birthday, birthday) == 0) {
+    if (strncmp(person->id->firstName, firstName, 100) == 0 &&
+        strncmp(person->id->lastName, lastName, 100) == 0 &&
+        strncmp(person->id->birthday, birthday, 100) == 0) {
         return 1;
     }
-
     return 0;
 }
 
 /**
- * created a new Person and return pointer to it
+ * create a new Person and return pointer to it
  */
 Person *newPerson(Id *id, Id *fatherId, Id *motherId) {
     Person *person = malloc(sizeof(Person));

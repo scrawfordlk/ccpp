@@ -7,7 +7,7 @@
  * defines a Person struct that stores its Id (= first name, last name and birthday) as well as the
  * id's of their father/mother
  */
-typedef struct Person {
+typedef struct {
     Id *id;
     Id *fatherId;
     Id *motherId;

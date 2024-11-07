@@ -17,21 +17,28 @@ People *getRelatives(People *people, char *firstName, char *lastName, char *birt
     }
 
     markRelatives(people, person);
+    // TODO: find out whether to include person or not
+    // person->marked = 0;
     return extractRelatives(people);
 }
 
 /**
  * returns a new People struct with all Person structs who were marked (attribute marked == 1)
+ * it does this by copying the wanted Person structs
  * */
 People *extractRelatives(People *people) {
     People *relatives = newPeople();
     for (int i = 0; i < people->currentLen; i++) {
         if (people->list[i]->marked == 1) {
+            // TODO: find out why this doesn't work
+            // Person *person = people->list[i];
+            // Person *pPerson = &person;
             addToPeople(relatives, people->list[i]);
         }
     }
     return relatives;
 }
+
 /**
  * marks all relatives of a Person
  * */

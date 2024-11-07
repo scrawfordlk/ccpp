@@ -13,10 +13,6 @@ typedef struct {
     Person **list;
 } People;
 
-People *newPeople();
-void addToPeople(People *people, Person *person);
-void freePeople(People *people);
-
 People *readPeople(char *fileName);
 static char *getWord(FILE *filePointer);
 void writePeople(People *people, char *fileName);
@@ -25,5 +21,9 @@ Person *getPerson(People *people, char *firstName, char *lastName, char *birthda
 
 void sortPeople(People *people);
 void swapPerson(People *people, int i, int j);
+
+People *newPeople();
+void addToPeople(People *people, Person *person);
+void freePeople(People *people);
 
 #endif
