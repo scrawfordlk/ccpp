@@ -22,4 +22,5 @@ void freeId(Id *id) {
     free(id->firstName);
     free(id->lastName);
     free(id->birthday);
+    free(id);
 }

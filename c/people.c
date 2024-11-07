@@ -149,6 +149,9 @@ People *newPeople() {
     return people;
 }
 
+/**
+ * adds a new Person pointer to a People struct
+ * */
 void addToPeople(People *people, Person *person) {
     if (people->currentLen == people->capacity) {
         people->capacity *= 2;
