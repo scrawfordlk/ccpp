@@ -24,9 +24,9 @@ People *readPeople(char *fileName) {
         // person
         firstName = getWord(filePointer);
         lastName = getWord(filePointer);
-        getWord(filePointer); // skip gender
+        free(getWord(filePointer)); // skip gender
         birthday = getWord(filePointer);
-        getWord(filePointer); // skip year of death
+        free(getWord(filePointer)); // skip year of death
         personId = newId(firstName, lastName, birthday);
 
         // father
@@ -54,6 +54,9 @@ People *readPeople(char *fileName) {
 static char *getWord(FILE *filePointer) {
     int len = 0;
     char *word = malloc(sizeof(char) * len);
+    if (word == NULL) {
+        exit(1);
+    }
 
     char currentChar;
     while ((currentChar = fgetc(filePointer)) != EOF && currentChar != ' ' && currentChar != '\n') {
@@ -144,6 +147,9 @@ People *newPeople() {
     people->currentLen = 0;
     people->capacity = 10;
     people->list = malloc(sizeof(Person *) * people->capacity);
+    if (people->list == NULL) {
+        exit(1);
+    }
     return people;
 }
 
