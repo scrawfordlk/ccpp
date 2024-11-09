@@ -18,7 +18,6 @@ void writePeople(People *people, char *fileName);
 Person *getPerson(People *people, char *firstName, char *lastName, char *birthyear);
 
 void sortPeople(People *people);
-static void swapPerson(People *people, int i, int j);
 
 People *newPeople();
 void addToPeople(People *people, Person *person);

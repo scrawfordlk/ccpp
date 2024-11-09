@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+static void swapPerson(People *people, int i, int j);
+
 /**
  * reads and stores people from the specified file in a People struct and returns a pointer to it
  * */
@@ -14,9 +16,9 @@ People *readPeople(char *fileName) {
 
     People *people = newPeople();
 
-    Id *personId, *fatherId, *motherId;
     char firstName[21], lastName[21], birthyear[5], garbage[21];
 
+    Id *personId, *fatherId, *motherId;
     char status;
     while ((status = getc(filePointer)) != EOF) {
         ungetc(status, filePointer);
@@ -24,15 +26,15 @@ People *readPeople(char *fileName) {
         fscanf(filePointer, "%20s %20s ", firstName, lastName);
         fscanf(filePointer, "%1s ", garbage); // skip gender
         fscanf(filePointer, "%4s ", birthyear);
-        Id *personId = newId(firstName, lastName, birthyear);
+        personId = newId(firstName, lastName, birthyear);
 
         fscanf(filePointer, "%4s ", garbage); // skip year of death
 
         fscanf(filePointer, "%20s %20s %4s ", firstName, lastName, birthyear);
-        Id *fatherId = newId(firstName, lastName, birthyear);
+        fatherId = newId(firstName, lastName, birthyear);
 
         fscanf(filePointer, "%20s %20s %4s\n", firstName, lastName, birthyear);
-        Id *motherId = newId(firstName, lastName, birthyear);
+        motherId = newId(firstName, lastName, birthyear);
 
         addToPeople(people, newPerson(personId, fatherId, motherId));
     }

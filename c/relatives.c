@@ -2,6 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+static People *extractRelatives(People *people);
+static void markRelatives(People *people, Person *person);
+static void markChildren(People *people, Person *person);
+static int isParentOf(People *people, Person *potentialParent, Person *potentialChild);
+static int isFatherOf(People *people, Person *potentFather, Person *potentChild);
+static int isMotherOf(People *people, Person *potentMother, Person *potentChild);
+
 /**
  *  returns a People struct with all Person structs who are relatives of the given Person
  */
