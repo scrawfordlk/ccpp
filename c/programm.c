@@ -1,4 +1,3 @@
-#include "people.h"
 #include "relatives.h"
 #include <stdio.h>
 
@@ -29,7 +28,7 @@ int main(int argc, char *argv[]) {
     People *relatives = getRelatives(people, firstName, lastName, birthyear);
     sortPeople(relatives);
     printPeople(relatives);
-    writePeople(relatives, "garbo.dat");
+    writePeople(relatives, "verwandte.dat");
     freePeople(people);
     freeRelatives(relatives);
 }

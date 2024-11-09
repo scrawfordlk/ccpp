@@ -1,7 +1,4 @@
 #include "people.h"
-#include "id.h"
-#include "person.h"
-#include "string.h"
 #include <stdio.h>
 #include <stdlib.h>
 

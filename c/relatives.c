@@ -1,9 +1,6 @@
 #include "relatives.h"
-#include "people.h"
-#include "person.h"
-#include "stdio.h"
+#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 /**
  *  returns a People struct with all Person structs who are relatives of the given Person

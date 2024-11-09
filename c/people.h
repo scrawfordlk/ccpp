@@ -2,7 +2,6 @@
 #define PEOPLE_H
 
 #include "person.h"
-#include <stdio.h>
 
 /**
  * struct that stores array of Person pointers and its length
