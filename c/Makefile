@@ -1,20 +1,13 @@
+CFLAGS=-Wall -g
 
-default: programm
+PROGRAMS=programm
+OBJECTS=id.o person.o people.o relatives.o
+ALLOBJECTS=$(OBJECTS) $(patsubst %,%.o,$(PROGRAMS))
 
-person.o: person.c
-	cc -c person person.c
+default: $(PROGRAMS)
 
-people.o: people.c
-	cc -c people people.c
-
-relatives.o: relatives.c
-	cc -c relatives relatives.c
-
-programm.o: programm.c
-	cc -c programm programm.c
-
-programm: programm.o person.o people.o relatives.o
-	cc -o programm programm.o person.o people.o relatives.o
+$(PROGRAMS): $(ALLOBJECTS)
+	$(CC) -o $(PROGRAMS) $(ALLOBJECTS) 
 
 clean:
-	rm *.o
+	rm -f *.o $(ALLOBJECTS) $(PROGRAMS)
