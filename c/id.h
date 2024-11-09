@@ -5,12 +5,11 @@
  * unique identification for a Person
  */
 typedef struct Id {
-    char *firstName;
-    char *lastName;
-    char *birthday;
+    char firstName[21];
+    char lastName[21];
+    char birthyear[5];
 } Id;
 
-Id *newId(char *firstName, char *lastName, char *birthday);
-void freeId(Id *id);
+Id *newId(char *firstName, char *lastName, char *birthyear);
 
 #endif

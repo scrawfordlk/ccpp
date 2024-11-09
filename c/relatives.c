@@ -8,17 +8,15 @@
 /**
  *  returns a People struct with all Person structs who are relatives of the given Person
  */
-People *getRelatives(People *people, char *firstName, char *lastName, char *birthday) {
-    Person *person = getPerson(people, firstName, lastName, birthday);
+People *getRelatives(People *people, char *firstName, char *lastName, char *birthyear) {
+    Person *person = getPerson(people, firstName, lastName, birthyear);
     if (person == NULL) {
         fprintf(stderr, "The person \"%s %s\" born in \"%s\" doesn't exist", firstName, lastName,
-                birthday);
+                birthyear);
         exit(1);
     }
 
     markRelatives(people, person);
-    // TODO: find out whether to include person or not
-    // person->marked = 0;
     return extractRelatives(people);
 }
 
@@ -26,13 +24,10 @@ People *getRelatives(People *people, char *firstName, char *lastName, char *birt
  * returns a new People struct with all Person structs who were marked (attribute marked == 1)
  * it does this by copying the wanted Person structs
  * */
-People *extractRelatives(People *people) {
+static People *extractRelatives(People *people) {
     People *relatives = newPeople();
-    for (int i = 0; i < people->currentLen; i++) {
-        if (people->list[i]->marked == 1) {
-            // TODO: find out why this doesn't work
-            // Person *person = people->list[i];
-            // Person *pPerson = &person;
+    for (int i = 0; i < people->size; i++) {
+        if (people->list[i]->marked) {
             addToPeople(relatives, people->list[i]);
         }
     }
@@ -42,16 +37,16 @@ People *extractRelatives(People *people) {
 /**
  * marks all relatives of a Person
  * */
-void markRelatives(People *people, Person *person) {
+static void markRelatives(People *people, Person *person) {
     Person *father = getPerson(people, person->fatherId->firstName, person->fatherId->lastName,
-                               person->fatherId->birthday);
+                               person->fatherId->birthyear);
     if (father != NULL) {
         father->marked = 1;
         markRelatives(people, father);
     }
 
     Person *mother = getPerson(people, person->motherId->firstName, person->motherId->lastName,
-                               person->motherId->birthday);
+                               person->motherId->birthyear);
     if (mother != NULL) {
         mother->marked = 1;
         markRelatives(people, mother);
@@ -63,8 +58,8 @@ void markRelatives(People *people, Person *person) {
 /**
  * marks all descendants of this Person
  * */
-void markChildren(People *people, Person *person) {
-    for (int i = 0; i < people->currentLen; i++) {
+static void markChildren(People *people, Person *person) {
+    for (int i = 0; i < people->size; i++) {
         if (isParentOf(people, person, people->list[i])) {
             people->list[i]->marked = 1;
             markChildren(people, people->list[i]);
@@ -75,7 +70,7 @@ void markChildren(People *people, Person *person) {
 /**
  * return 1 if potentParent is a parent of potentChild otherwise 0
  * */
-int isParentOf(People *people, Person *potentParent, Person *potentChild) {
+static int isParentOf(People *people, Person *potentParent, Person *potentChild) {
     if (isFatherOf(people, potentParent, potentChild) ||
         isMotherOf(people, potentParent, potentChild)) {
         return 1;
@@ -87,23 +82,24 @@ int isParentOf(People *people, Person *potentParent, Person *potentChild) {
 /**
  * return 1 if potentFather is father of potentChild
  * */
-int isFatherOf(People *people, Person *potentFather, Person *potentChild) {
+static int isFatherOf(People *people, Person *potentFather, Person *potentChild) {
     return isThisPerson(potentFather, potentChild->fatherId->firstName,
-                        potentChild->fatherId->lastName, potentChild->fatherId->birthday);
+                        potentChild->fatherId->lastName, potentChild->fatherId->birthyear);
 }
 
 /**
  * return 1 if potentMother is mother of potentChild
  * */
-int isMotherOf(People *people, Person *potentMother, Person *potentChild) {
+static int isMotherOf(People *people, Person *potentMother, Person *potentChild) {
     return isThisPerson(potentMother, potentChild->motherId->firstName,
-                        potentChild->motherId->lastName, potentChild->motherId->birthday);
+                        potentChild->motherId->lastName, potentChild->motherId->birthyear);
 }
 
 /**
- * frees relatives pointer with assumption that the people pointer it's based off was already
- * freed
+ * frees relatives pointer with assumption that the pointers to each Person struct has been freed
+ * (but not the array containing them)
  * */
 void freeRelatives(People *relatives) {
+    free(relatives->list);
     free(relatives);
 }

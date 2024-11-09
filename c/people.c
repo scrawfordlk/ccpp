@@ -1,12 +1,13 @@
 #include "people.h"
+#include "id.h"
 #include "person.h"
 #include "string.h"
+#include <stdio.h>
 #include <stdlib.h>
 
-// TODO: Refactor it more
 /**
- * returns a pointer to a People structure of all people in the given file
- */
+ * reads and stores people from the specified file in a People struct and returns a pointer to it
+ * */
 People *readPeople(char *fileName) {
     FILE *filePointer = fopen(fileName, "r");
     if (filePointer == NULL) {
@@ -17,29 +18,24 @@ People *readPeople(char *fileName) {
     People *people = newPeople();
 
     Id *personId, *fatherId, *motherId;
-    char c, *firstName, *lastName, *birthday;
-    while ((c = getc(filePointer)) != EOF) {
-        ungetc(c, filePointer);
+    char firstName[21], lastName[21], birthyear[5], garbage[21];
 
-        // person
-        firstName = getWord(filePointer);
-        lastName = getWord(filePointer);
-        free(getWord(filePointer)); // skip gender
-        birthday = getWord(filePointer);
-        free(getWord(filePointer)); // skip year of death
-        personId = newId(firstName, lastName, birthday);
+    char status;
+    while ((status = getc(filePointer)) != EOF) {
+        ungetc(status, filePointer);
 
-        // father
-        firstName = getWord(filePointer);
-        lastName = getWord(filePointer);
-        birthday = getWord(filePointer);
-        fatherId = newId(firstName, lastName, birthday);
+        fscanf(filePointer, "%20s %20s ", firstName, lastName);
+        fscanf(filePointer, "%1s ", garbage); // skip gender
+        fscanf(filePointer, "%4s ", birthyear);
+        Id *personId = newId(firstName, lastName, birthyear);
 
-        // mother
-        firstName = getWord(filePointer);
-        lastName = getWord(filePointer);
-        birthday = getWord(filePointer);
-        motherId = newId(firstName, lastName, birthday);
+        fscanf(filePointer, "%4s ", garbage); // skip year of death
+
+        fscanf(filePointer, "%20s %20s %4s ", firstName, lastName, birthyear);
+        Id *fatherId = newId(firstName, lastName, birthyear);
+
+        fscanf(filePointer, "%20s %20s %4s\n", firstName, lastName, birthyear);
+        Id *motherId = newId(firstName, lastName, birthyear);
 
         addToPeople(people, newPerson(personId, fatherId, motherId));
     }
@@ -49,33 +45,7 @@ People *readPeople(char *fileName) {
 }
 
 /**
- * returns next word from the part where filePointer is pointing to
- */
-static char *getWord(FILE *filePointer) {
-    int len = 0;
-    char *word = malloc(sizeof(char) * len);
-    if (word == NULL) {
-        exit(1);
-    }
-
-    char currentChar;
-    while ((currentChar = fgetc(filePointer)) != EOF && currentChar != ' ' && currentChar != '\n') {
-
-        len++;
-        word = realloc(word, sizeof(char) * len);
-        if (word == NULL) {
-            exit(1);
-        }
-
-        word[len - 1] = currentChar;
-        word[len] = '\0';
-    }
-
-    return word;
-}
-
-/**
- * writes a sorted People struct to a file
+ * writes a People struct to the specified file
  */
 void writePeople(People *people, char *fileName) {
     FILE *filePointer = fopen(fileName, "w");
@@ -85,26 +55,26 @@ void writePeople(People *people, char *fileName) {
     }
 
     Id *id;
-    for (int i = 0; i < people->currentLen; i++) {
+    for (int i = 0; i < people->size; i++) {
         id = people->list[i]->id;
-        fprintf(filePointer, "%s %s %s\n", id->birthday, id->lastName, id->firstName);
+        fprintf(filePointer, "%s %s %s\n", id->birthyear, id->lastName, id->firstName);
     }
 
     fclose(filePointer);
 }
 
 /**
- * receives pointer to sorted People struct, the unique identification of a Person (first name, last
- * name and birthday) and returns a pointer to this person.
+ * receives unique id of a Person (in the form of 3 Strings) and returns a pointer to this person.
  *
  * Returns NULL, if this Person doesn't exist
  */
-Person *getPerson(People *people, char *firstName, char *lastName, char *birthday) {
-    for (int i = 0; i < people->currentLen; i++) {
-        if (isThisPerson(people->list[i], firstName, lastName, birthday)) {
+Person *getPerson(People *people, char *firstName, char *lastName, char *birthyear) {
+    for (int i = 0; i < people->size; i++) {
+        if (isThisPerson(people->list[i], firstName, lastName, birthyear)) {
             return people->list[i];
         }
     }
+
     return NULL;
 }
 
@@ -118,7 +88,7 @@ void sortPeople(People *people) {
     while (!isSorted) {
         isSorted = 1;
 
-        for (int i = 0; i < people->currentLen - 1; i++) {
+        for (int i = 0; i < people->size - 1; i++) {
             if (comparePerson(people->list[i], people->list[i + 1]) > 0) {
                 isSorted = 0;
                 swapPerson(people, i, i + 1);
@@ -130,7 +100,7 @@ void sortPeople(People *people) {
 /**
  * swaps pointers of two Person structs in a People struct
  */
-void swapPerson(People *people, int i, int j) {
+static void swapPerson(People *people, int i, int j) {
     Person *tmp = people->list[i];
     people->list[i] = people->list[j];
     people->list[j] = tmp;
@@ -144,20 +114,23 @@ People *newPeople() {
     if (people == NULL) {
         exit(1);
     }
-    people->currentLen = 0;
+
     people->capacity = 10;
     people->list = malloc(sizeof(Person *) * people->capacity);
     if (people->list == NULL) {
         exit(1);
     }
+
+    people->size = 0;
     return people;
 }
 
 /**
  * adds a new Person pointer to a People struct
+ * returns 1 if successful, 0 if reallocation fails
  * */
 void addToPeople(People *people, Person *person) {
-    if (people->currentLen == people->capacity) {
+    if (people->size == people->capacity) {
         people->capacity *= 2;
         people->list = realloc(people->list, sizeof(Person *) * people->capacity);
         if (people->list == NULL) {
@@ -165,14 +138,14 @@ void addToPeople(People *people, Person *person) {
         }
     }
 
-    people->list[people->currentLen++] = person;
+    people->list[people->size++] = person;
 }
 
 /**
  * frees memory from a People struct
  */
 void freePeople(People *people) {
-    for (int i = 0; i < people->currentLen; i++) {
+    for (int i = 0; i < people->size; i++) {
         freePerson(people->list[i]);
     }
     free(people->list);

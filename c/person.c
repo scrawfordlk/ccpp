@@ -6,33 +6,34 @@
 
 /**
  * compares a Person A to a Person B and returns integer <, == or > than 0 if Person A is smaller,
- * equal or larger than Person B where a Person is sorted according to (in order) their birthday,
+ * equal or larger than Person B where a Person is sorted according to (in order) their birthyear,
  * last name, first name
  */
 int comparePerson(Person *personA, Person *personB) {
-    int cmp = strncmp(personA->id->birthday, personB->id->birthday, 100);
+    int cmp = strncmp(personA->id->birthyear, personB->id->birthyear, 4);
     if (cmp != 0) {
         return cmp;
     }
 
-    cmp = strncmp(personA->id->lastName, personB->id->lastName, 100);
+    cmp = strncmp(personA->id->lastName, personB->id->lastName, 20);
     if (cmp != 0) {
         return cmp;
     }
 
-    return strncmp(personA->id->firstName, personB->id->firstName, 100);
+    return strncmp(personA->id->firstName, personB->id->firstName, 20);
 }
 
 /**
  * returns true if this Person is this Person as specified by their first name, last name and
- * birthday
+ * birthyear
  */
-int isThisPerson(Person *person, char *firstName, char *lastName, char *birthday) {
-    if (strncmp(person->id->firstName, firstName, 100) == 0 &&
-        strncmp(person->id->lastName, lastName, 100) == 0 &&
-        strncmp(person->id->birthday, birthday, 100) == 0) {
+int isThisPerson(Person *person, char *firstName, char *lastName, char *birthyear) {
+    if (strncmp(person->id->firstName, firstName, 20) == 0 &&
+        strncmp(person->id->lastName, lastName, 20) == 0 &&
+        strncmp(person->id->birthyear, birthyear, 4) == 0) {
         return 1;
     }
+
     return 0;
 }
 
@@ -44,6 +45,7 @@ Person *newPerson(Id *id, Id *fatherId, Id *motherId) {
     if (person == NULL) {
         exit(1);
     }
+
     person->id = id;
     person->fatherId = fatherId;
     person->motherId = motherId;
@@ -55,8 +57,8 @@ Person *newPerson(Id *id, Id *fatherId, Id *motherId) {
  * frees memory from a Person struct
  */
 void freePerson(Person *person) {
-    freeId(person->id);
-    freeId(person->fatherId);
-    freeId(person->motherId);
+    free(person->id);
+    free(person->fatherId);
+    free(person->motherId);
     free(person);
 }
