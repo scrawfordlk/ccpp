@@ -18,6 +18,7 @@ People *readPeople(char *fileName) {
 
     char firstName[21], lastName[21], birthyear[5], garbage[21];
     Id *personId, *fatherId, *motherId;
+
     while (fscanf(pFile, "%20s %20s %1s %4s", firstName, lastName, garbage, birthyear) != EOF) {
         personId = newId(firstName, lastName, birthyear);
 
@@ -70,7 +71,6 @@ Person *getPerson(People *people, char *firstName, char *lastName, char *birthye
     return NULL;
 }
 
-// TODO: Use qsort
 /*
  * sorts the People struct that people points to
  */

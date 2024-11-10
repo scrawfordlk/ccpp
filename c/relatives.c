@@ -15,7 +15,7 @@ static int isMotherOf(People *people, Person *potentMother, Person *potentChild)
 People *getRelatives(People *people, char *firstName, char *lastName, char *birthyear) {
     Person *person = getPerson(people, firstName, lastName, birthyear);
     if (person == NULL) {
-        fprintf(stderr, "The person \"%s %s\" born in \"%s\" doesn't exist", firstName, lastName,
+        fprintf(stderr, "The person \"%s %s\" born \"%s\" doesn't exist", firstName, lastName,
                 birthyear);
         exit(1);
     }
@@ -75,16 +75,12 @@ static void markChildren(People *people, Person *person) {
  * return 1 if potentParent is a parent of potentChild otherwise 0
  * */
 static int isParentOf(People *people, Person *potentParent, Person *potentChild) {
-    if (isFatherOf(people, potentParent, potentChild) ||
-        isMotherOf(people, potentParent, potentChild)) {
-        return 1;
-    }
-
-    return 0;
+    return isFatherOf(people, potentParent, potentChild) ||
+           isMotherOf(people, potentParent, potentChild);
 }
 
 /**
- * return 1 if potentFather is father of potentChild
+ * return 1 if potentFather is father of potentChild otherwise 0
  * */
 static int isFatherOf(People *people, Person *potentFather, Person *potentChild) {
     return isThisPerson(potentFather, potentChild->fatherId->firstName,
@@ -92,7 +88,7 @@ static int isFatherOf(People *people, Person *potentFather, Person *potentChild)
 }
 
 /**
- * return 1 if potentMother is mother of potentChild
+ * return 1 if potentMother is mother of potentChild otherwise 0
  * */
 static int isMotherOf(People *people, Person *potentMother, Person *potentChild) {
     return isThisPerson(potentMother, potentChild->motherId->firstName,

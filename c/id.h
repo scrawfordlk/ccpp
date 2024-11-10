@@ -10,6 +10,8 @@ typedef struct Id {
     char birthyear[5];
 } Id;
 
+int compareId(Id *idA, Id *idB);
+int isIdOf(Id *id, char *firstName, char *lastName, char *birthyear);
 Id *newId(char *firstName, char *lastName, char *birthyear);
 
 #endif
