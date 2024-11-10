@@ -43,7 +43,7 @@ People *readPeople(char *fileName) {
 void writePeople(People *people, char *fileName) {
     FILE *pFile = fopen(fileName, "w");
     if (pFile == NULL) {
-        printf("couldn't open %s", fileName);
+        printf("couldn't open %s\n", fileName);
         exit(1);
     }
 

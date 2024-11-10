@@ -10,4 +10,4 @@ $(PROGRAMS): $(ALLOBJECTS)
 	$(CC) -o $(PROGRAMS) $(ALLOBJECTS) 
 
 clean:
-	rm -f *.o $(ALLOBJECTS) $(PROGRAMS)
+	rm -f *.o *.d $(ALLOBJECTS) $(PROGRAMS)

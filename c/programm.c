@@ -1,17 +1,6 @@
 #include "relatives.h"
 #include <stdio.h>
 
-static void printPeople(People *people) {
-    for (int i = 0; i < people->size; i++) {
-        Person *person = people->list[i];
-        printf("%p %s %s %s %s %s %s %s %s %s\n", person, person->id->firstName,
-               person->id->lastName, person->id->birthyear, person->fatherId->firstName,
-               person->fatherId->lastName, person->fatherId->birthyear, person->motherId->firstName,
-               person->motherId->lastName, person->motherId->birthyear);
-    }
-    printf("printed %d people", people->size);
-}
-
 int main(int argc, char *argv[]) {
 
     if (argc != 6) {
@@ -27,7 +16,6 @@ int main(int argc, char *argv[]) {
     People *people = readPeople(fileName);
     People *relatives = getRelatives(people, firstName, lastName, birthyear);
     sortPeople(relatives);
-    printPeople(relatives);
     writePeople(relatives, "verwandte.dat");
     freePeople(people);
     freeRelatives(relatives);

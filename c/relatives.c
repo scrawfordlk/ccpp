@@ -15,7 +15,7 @@ static int isMotherOf(People *people, Person *potentMother, Person *potentChild)
 People *getRelatives(People *people, char *firstName, char *lastName, char *birthyear) {
     Person *person = getPerson(people, firstName, lastName, birthyear);
     if (person == NULL) {
-        fprintf(stderr, "The person \"%s %s\" born \"%s\" doesn't exist", firstName, lastName,
+        fprintf(stderr, "The person \"%s %s\" born \"%s\" doesn't exist\n", firstName, lastName,
                 birthyear);
         exit(1);
     }
