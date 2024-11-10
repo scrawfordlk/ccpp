@@ -8,8 +8,8 @@ static void swapPerson(People *people, int i, int j);
  * reads and stores people from the specified file in a People struct and returns a pointer to it
  * */
 People *readPeople(char *fileName) {
-    FILE *filePointer = fopen(fileName, "r");
-    if (filePointer == NULL) {
+    FILE *pFile = fopen(fileName, "r");
+    if (pFile == NULL) {
         fprintf(stderr, "couldn't open %s\n", fileName);
         exit(1);
     }
@@ -17,29 +17,22 @@ People *readPeople(char *fileName) {
     People *people = newPeople();
 
     char firstName[21], lastName[21], birthyear[5], garbage[21];
-
     Id *personId, *fatherId, *motherId;
-    char status;
-    while ((status = getc(filePointer)) != EOF) {
-        ungetc(status, filePointer);
-
-        fscanf(filePointer, "%20s %20s ", firstName, lastName);
-        fscanf(filePointer, "%1s ", garbage); // skip gender
-        fscanf(filePointer, "%4s ", birthyear);
+    while (fscanf(pFile, "%20s %20s %1s %4s", firstName, lastName, garbage, birthyear) != EOF) {
         personId = newId(firstName, lastName, birthyear);
 
-        fscanf(filePointer, "%4s ", garbage); // skip year of death
+        fscanf(pFile, "%4s ", garbage); // skip year of death
 
-        fscanf(filePointer, "%20s %20s %4s ", firstName, lastName, birthyear);
+        fscanf(pFile, "%20s %20s %4s ", firstName, lastName, birthyear);
         fatherId = newId(firstName, lastName, birthyear);
 
-        fscanf(filePointer, "%20s %20s %4s\n", firstName, lastName, birthyear);
+        fscanf(pFile, "%20s %20s %4s\n", firstName, lastName, birthyear);
         motherId = newId(firstName, lastName, birthyear);
 
         addToPeople(people, newPerson(personId, fatherId, motherId));
     }
 
-    fclose(filePointer);
+    fclose(pFile);
     return people;
 }
 
@@ -47,8 +40,8 @@ People *readPeople(char *fileName) {
  * writes a People struct to the specified file
  */
 void writePeople(People *people, char *fileName) {
-    FILE *filePointer = fopen(fileName, "w");
-    if (filePointer == NULL) {
+    FILE *pFile = fopen(fileName, "w");
+    if (pFile == NULL) {
         printf("couldn't open %s", fileName);
         exit(1);
     }
@@ -56,10 +49,10 @@ void writePeople(People *people, char *fileName) {
     Id *id;
     for (int i = 0; i < people->size; i++) {
         id = people->list[i]->id;
-        fprintf(filePointer, "%s %s %s\n", id->birthyear, id->lastName, id->firstName);
+        fprintf(pFile, "%s %s %s\n", id->birthyear, id->lastName, id->firstName);
     }
 
-    fclose(filePointer);
+    fclose(pFile);
 }
 
 /**
