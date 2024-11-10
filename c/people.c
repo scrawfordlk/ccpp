@@ -49,7 +49,7 @@ void writePeople(People *people, char *fileName) {
     Id *id;
     for (int i = 0; i < people->size; i++) {
         id = people->list[i]->id;
-        fprintf(pFile, "%s %s %s\n", id->birthyear, id->lastName, id->firstName);
+        fprintf(pFile, "%s %s %s\n", id->firstName, id->lastName, id->birthyear);
     }
 
     fclose(pFile);
