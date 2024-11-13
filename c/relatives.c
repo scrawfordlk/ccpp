@@ -4,10 +4,10 @@
 
 static People *extractRelatives(People *people);
 static void markRelatives(People *people, Person *person);
-static void markChildren(People *people, Person *person);
-static int isParentOf(People *people, Person *potentialParent, Person *potentialChild);
-static int isFatherOf(People *people, Person *potentFather, Person *potentChild);
-static int isMotherOf(People *people, Person *potentMother, Person *potentChild);
+static void markChildren(People *people, Person *parent);
+static int isParentOf(People *people, Person *parent, Person *child);
+static int isFatherOf(People *people, Person *father, Person *child);
+static int isMotherOf(People *people, Person *mother, Person *child);
 
 /**
  *  returns a People struct with all Person structs who are relatives of the given Person
@@ -62,38 +62,39 @@ static void markRelatives(People *people, Person *person) {
 /**
  * marks all descendants of this Person
  * */
-static void markChildren(People *people, Person *person) {
+static void markChildren(People *people, Person *parent) {
+    Person *child;
+
     for (int i = 0; i < people->size; i++) {
-        if (isParentOf(people, person, people->list[i])) {
-            // Hier könnte/sollte man noch checken, ob marked nicht schon 1 ist, und in dem Fall den rekursiven Aufruf unterlassen.  Rade
-            people->list[i]->marked = 1;
-            markChildren(people, people->list[i]);
+        child = people->list[i];
+        if (isParentOf(people, parent, child) && !child->marked) {
+            child->marked = 1;
+            markChildren(people, child);
         }
     }
 }
 
 /**
- * return 1 if potentParent is a parent of potentChild otherwise 0
+ * return 1 if 'parent' is a parent of 'child' otherwise 0
  * */
-static int isParentOf(People *people, Person *potentParent, Person *potentChild) {
-    return isFatherOf(people, potentParent, potentChild) ||
-           isMotherOf(people, potentParent, potentChild);
+static int isParentOf(People *people, Person *parent, Person *child) {
+    return isFatherOf(people, parent, child) || isMotherOf(people, parent, child);
 }
 
 /**
- * return 1 if potentFather is father of potentChild otherwise 0
+ * return 1 if 'father' is father of 'child' otherwise 0
  * */
-static int isFatherOf(People *people, Person *potentFather, Person *potentChild) {
-    return isThisPerson(potentFather, potentChild->fatherId->firstName,
-                        potentChild->fatherId->lastName, potentChild->fatherId->birthyear);
+static int isFatherOf(People *people, Person *father, Person *child) {
+    return isThisPerson(father, child->fatherId->firstName, child->fatherId->lastName,
+                        child->fatherId->birthyear);
 }
 
 /**
- * return 1 if potentMother is mother of potentChild otherwise 0
+ * return 1 if 'mother' is mother of 'child' otherwise 0
  * */
-static int isMotherOf(People *people, Person *potentMother, Person *potentChild) {
-    return isThisPerson(potentMother, potentChild->motherId->firstName,
-                        potentChild->motherId->lastName, potentChild->motherId->birthyear);
+static int isMotherOf(People *people, Person *mother, Person *child) {
+    return isThisPerson(mother, child->motherId->firstName, child->motherId->lastName,
+                        child->motherId->birthyear);
 }
 
 /**
