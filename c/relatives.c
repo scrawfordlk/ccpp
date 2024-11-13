@@ -65,6 +65,7 @@ static void markRelatives(People *people, Person *person) {
 static void markChildren(People *people, Person *person) {
     for (int i = 0; i < people->size; i++) {
         if (isParentOf(people, person, people->list[i])) {
+            // Hier könnte/sollte man noch checken, ob marked nicht schon 1 ist, und in dem Fall den rekursiven Aufruf unterlassen.  Rade
             people->list[i]->marked = 1;
             markChildren(people, people->list[i]);
         }

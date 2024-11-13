@@ -1,6 +1,7 @@
 #include "relatives.h"
 #include <stdio.h>
 
+// Passt sonst.  Rade
 int main(int argc, char *argv[]) {
 
     if (argc != 6) {
