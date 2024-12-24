@@ -1,6 +1,4 @@
 #include "Person.h"
-#include <memory>
-#include <ostream>
 
 using std::ostream;
 using std::unique_ptr;

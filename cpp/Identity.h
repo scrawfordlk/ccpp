@@ -3,15 +3,11 @@
 
 #include <memory>
 
-using std::ostream;
-using std::string;
-using std::unique_ptr;
-
 class Identity {
   private:
-    unique_ptr<string> firstName;
-    unique_ptr<string> lastName;
-    unique_ptr<string> birthyear;
+    std::unique_ptr<std::string> firstName;
+    std::unique_ptr<std::string> lastName;
+    std::unique_ptr<std::string> birthyear;
 
   public:
     Identity(const char *firstName, const char *lastName, const char *birthyear);
@@ -30,9 +26,9 @@ class Identity {
   private:
     int compareTo(const Identity &other) const;
 
-    friend ostream &operator<<(ostream &stream, const Identity &identity);
+    friend std::ostream &operator<<(std::ostream &stream, const Identity &identity);
 };
 
-ostream &operator<<(ostream &stream, const Identity &identity);
+std::ostream &operator<<(std::ostream &stream, const Identity &identity);
 
 #endif
