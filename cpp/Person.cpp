@@ -3,8 +3,7 @@
 #include <iostream>
 #include <memory>
 
-using std::ostream;
-using std::unique_ptr;
+using std::ostream, std::unique_ptr;
 
 Person::Person(unique_ptr<Identity> self, unique_ptr<Identity> father, unique_ptr<Identity> mother)
     : self(std::move(self)), father(std::move(father)), mother(std::move(mother)), marked(false) {}

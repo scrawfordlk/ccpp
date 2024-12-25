@@ -3,9 +3,7 @@
 #include <memory>
 #include <string>
 
-using std::ostream;
-using std::string;
-using std::unique_ptr;
+using std::ostream, std::string, std::unique_ptr;
 
 Identity::Identity(unique_ptr<string> firstName, unique_ptr<string> lastName,
                    unique_ptr<string> birthyear)

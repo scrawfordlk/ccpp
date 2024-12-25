@@ -8,11 +8,7 @@
 #include <memory>
 #include <string>
 
-using std::array;
-using std::ifstream;
-using std::string;
-using std::unique_ptr, std::make_unique;
-using std::vector;
+using std::array, std::ifstream, std::string, std::unique_ptr, std::make_unique, std::vector;
 
 static unique_ptr<Person> constructPerson(const array<string, 11> p_info);
 static void sort(unique_ptr<vector<unique_ptr<Person>>> &people);
