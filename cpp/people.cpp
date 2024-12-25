@@ -9,7 +9,14 @@
 
 using std::array, std::vector, std::string, std::unique_ptr, std::make_unique;
 
+/**
+ * returns a unique_ptr to a new Person assembled from the given array of information
+ * */
 static unique_ptr<Person> constructPerson(const array<string, 11> &personInfo);
+
+/**
+ * sorts the vector of unique_ptr's to Person using std::sort()
+ * */
 static void sort(unique_ptr<vector<unique_ptr<Person>>> &people);
 
 unique_ptr<vector<unique_ptr<Person>>> readPeople(const char *fileName) {
@@ -38,9 +45,6 @@ unique_ptr<vector<unique_ptr<Person>>> readPeople(const char *fileName) {
     return std::move(people);
 }
 
-/**
- * returns a unique_ptr to a new Person assembled from the given array of information
- * */
 static unique_ptr<Person> constructPerson(const array<string, 11> &personFragments) {
     auto firstName = make_unique<string>(personFragments[0]);
     auto lastName = make_unique<string>(personFragments[1]);
@@ -68,9 +72,6 @@ static unique_ptr<Person> constructPerson(const array<string, 11> &personFragmen
     }
 }
 
-/**
- * sorts the vector of unique_ptr's to Person using std::sort()
- * */
 static void sort(unique_ptr<vector<unique_ptr<Person>>> &people) {
     std::sort(people->begin(), people->end(),
               [](unique_ptr<Person> &p1, unique_ptr<Person> &p2) { return *p1 < *p2; });

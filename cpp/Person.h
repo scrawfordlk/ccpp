@@ -18,30 +18,38 @@ class Person {
     bool marked;
 
   public:
-    // ------------ constructors ----------------
-
     /**
-     * Person with both father and mother
+     * Person with both father and mother.
      * */
     Person(std::unique_ptr<Identity> self, std::unique_ptr<Identity> father,
            std::unique_ptr<Identity> mother);
 
     /*
-     * if this Person has no known parents
+     * Person with no known parents.
      * */
     Person(std::unique_ptr<Identity> self);
 
     // --------------- methods -----------------
 
     /**
-     * returns true if this Person is the child of the given reference to another person
+     * Returns true if this Person is the child of the given reference to another person, otherwise
+     * returns false.
      * */
     bool isChildOf(const Person &person) const;
 
     /**
+     * Returns true if this person is a parent of the other person, otherwise returns false
      * */
     bool isParentOf(const Person &person) const;
+
+    /**
+     * Sets the member variable 'marked' to true.
+     * */
     void setMark();
+
+    /**
+     * Returns true if member variable 'marked' has been set to true.
+     * */
     bool isMarked();
 
     // ---------- overloaded operators -------------
