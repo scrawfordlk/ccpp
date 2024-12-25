@@ -38,9 +38,9 @@ class Person {
     bool operator<=(const Person &other) const;
     bool operator>=(const Person &other) const;
 
-    friend std::ostream &operator<<(std::ostream &stream, Person &person);
+    friend std::ostream &operator<<(std::ostream &stream, const Person &person);
 };
 
-std::ostream &operator<<(std::ostream &stream, Person &person);
+std::ostream &operator<<(std::ostream &stream, const Person &person);
 
 #endif

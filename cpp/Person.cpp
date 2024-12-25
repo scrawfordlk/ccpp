@@ -53,6 +53,6 @@ bool Person::operator>=(const Person &other) const {
     return *self >= *other.self;
 }
 
-ostream &operator<<(ostream &stream, Person &person) {
+ostream &operator<<(ostream &stream, const Person &person) {
     return stream << *person.self;
 }

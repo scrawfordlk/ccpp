@@ -1,6 +1,7 @@
 #include "people.h"
 #include "Identity.h"
 #include "Person.h"
+#include <algorithm>
 #include <array>
 #include <fstream>
 #include <iostream>
@@ -13,7 +14,8 @@ using std::string;
 using std::unique_ptr, std::make_unique;
 using std::vector;
 
-static unique_ptr<Person> constructPerson(array<string, 11> p_info);
+static unique_ptr<Person> constructPerson(const array<string, 11> p_info);
+static void sort(unique_ptr<vector<unique_ptr<Person>>> &people);
 
 unique_ptr<vector<unique_ptr<Person>>> readPeople(const char *fileName) {
     auto people = make_unique<vector<unique_ptr<Person>>>();
@@ -38,10 +40,12 @@ unique_ptr<vector<unique_ptr<Person>>> readPeople(const char *fileName) {
 
     // remove last person who was added twice
     people->pop_back();
+
+    sort(people);
     return std::move(people);
 }
 
-static unique_ptr<Person> constructPerson(array<string, 11> p_info) {
+static unique_ptr<Person> constructPerson(const array<string, 11> &p_info) {
     auto firstName = make_unique<string>(p_info[0]);
     auto lastName = make_unique<string>(p_info[1]);
     auto birthyear = make_unique<string>(p_info[3]);
@@ -66,4 +70,8 @@ static unique_ptr<Person> constructPerson(array<string, 11> p_info) {
     } else {
         return make_unique<Person>(std::move(id));
     }
+}
+
+static void sort(unique_ptr<vector<unique_ptr<Person>>> &people) {
+    std::sort(people->begin(), people->end(), LAMBDA);
 }
