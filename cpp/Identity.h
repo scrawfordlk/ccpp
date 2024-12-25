@@ -1,7 +1,9 @@
 #ifndef IDENTITY
 #define IDENTITY
 
+#include <iostream>
 #include <memory>
+#include <string>
 
 class Identity {
   private:
@@ -10,7 +12,8 @@ class Identity {
     std::unique_ptr<std::string> birthyear;
 
   public:
-    Identity(const char *firstName, const char *lastName, const char *birthyear);
+    Identity(std::unique_ptr<std::string> firstName, std::unique_ptr<std::string> lastName,
+             std::unique_ptr<std::string> birthyear);
 
     /*
      * ----------- overloaded operators ---------------

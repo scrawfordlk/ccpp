@@ -2,6 +2,8 @@
 #define PERSON
 
 #include "Identity.h"
+#include <iostream>
+#include <memory>
 
 class Person {
   private:

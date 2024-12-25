@@ -1,4 +1,7 @@
 #include "Person.h"
+#include "Identity.h"
+#include <iostream>
+#include <memory>
 
 using std::ostream;
 using std::unique_ptr;

@@ -1,13 +1,16 @@
 #include "Identity.h"
 #include <iostream>
+#include <memory>
+#include <string>
 
-using std::make_unique;
 using std::ostream;
 using std::string;
+using std::unique_ptr;
 
-Identity::Identity(const char *firstName, const char *lastName, const char *birthyear)
-    : firstName(make_unique<string>(firstName)), lastName(make_unique<string>(lastName)),
-      birthyear(make_unique<string>(birthyear)) {}
+Identity::Identity(unique_ptr<string> firstName, unique_ptr<string> lastName,
+                   unique_ptr<string> birthyear)
+    : firstName(std::move(firstName)), lastName(std::move(lastName)),
+      birthyear(std::move(birthyear)) {}
 
 bool Identity::operator==(const Identity &other) const {
     return compareTo(other) == 0;
