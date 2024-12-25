@@ -4,13 +4,12 @@
 #include <algorithm>
 #include <array>
 #include <fstream>
-#include <iostream>
 #include <memory>
 #include <string>
 
 using std::array, std::ifstream, std::string, std::unique_ptr, std::make_unique, std::vector;
 
-static unique_ptr<Person> constructPerson(const array<string, 11> p_info);
+static unique_ptr<Person> constructPerson(const array<string, 11> &personInfo);
 static void sort(unique_ptr<vector<unique_ptr<Person>>> &people);
 
 unique_ptr<vector<unique_ptr<Person>>> readPeople(const char *fileName) {
@@ -18,8 +17,7 @@ unique_ptr<vector<unique_ptr<Person>>> readPeople(const char *fileName) {
 
     ifstream file = ifstream(fileName);
     if (!file.is_open()) {
-        std::cerr << fileName << " is an invalid file name" << std::endl;
-        return nullptr;
+        throw string("Invalid file name: " + string(fileName) + '\n');
     }
 
     array<string, 11> input;
@@ -69,5 +67,6 @@ static unique_ptr<Person> constructPerson(const array<string, 11> &p_info) {
 }
 
 static void sort(unique_ptr<vector<unique_ptr<Person>>> &people) {
-    std::sort(people->begin(), people->end(), LAMBDA);
+    std::sort(people->begin(), people->end(),
+              [](unique_ptr<Person> &p1, unique_ptr<Person> &p2) { return *p1 < *p2; });
 }
