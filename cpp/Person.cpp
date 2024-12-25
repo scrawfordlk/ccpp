@@ -28,6 +28,10 @@ void Person::setMark() {
     marked = true;
 }
 
+bool Person::isMarked() {
+    return marked;
+}
+
 bool Person::operator==(const Person &other) const {
     return *self == *other.self;
 }
