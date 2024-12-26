@@ -13,9 +13,10 @@
 class Person {
   private:
     Identity self;
-    Identity *father;
-    Identity *mother;
+    Identity father;
+    Identity mother;
     bool marked;
+    bool hasKnownParents;
 
   public:
     /**
@@ -32,13 +33,13 @@ class Person {
      * Returns a weak_ptr to the Identity of the father.
      * If there is no father, then a default weak_ptr
      * */
-    const Identity &getFather() const;
+    const Identity *getFather() const;
 
     /**
      * Returns a weak_ptr to the Identity of the mother.
      * If there is no mother, then a default weak_ptr.
      * */
-    const Identity &getMother() const;
+    const Identity *getMother() const;
 
     /**
      * Sets the member variable 'marked' to true.

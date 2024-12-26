@@ -4,24 +4,17 @@
 
 using std::ostream;
 
-Person::Person(const Identity &self, const Identity &father, const Identity &mother) : self(self) {
-    *this->father = father;
-    *this->mother = mother;
-    this->marked = false;
+Person::Person(const Identity &self, const Identity &father, const Identity &mother)
+    : self(self), father(father), mother(mother), marked(false) {}
+
+Person::Person(const Identity &self) : self(self), marked(false), hasKnownParents(false) {}
+
+const Identity *Person::getFather() const {
+    return hasKnownParents ? &father : nullptr;
 }
 
-Person::Person(const Identity &self) : self(self) {
-    this->father = nullptr;
-    this->mother = nullptr;
-    this->marked = false;
-}
-
-const Identity &Person::getFather() const {
-    return *father;
-}
-
-const Identity &Person::getMother() const {
-    return *mother;
+const Identity *Person::getMother() const {
+    return hasKnownParents ? &mother : nullptr;
 }
 
 void Person::mark() {
