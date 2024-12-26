@@ -23,7 +23,7 @@ static std::unique_ptr<Person> constructPerson(const array<string, 11> &personIn
  * */
 static void sort(vector<shared_ptr<Person>> *people);
 
-unique_ptr<vector<shared_ptr<Person>>> readPeople(string fileName) {
+unique_ptr<vector<shared_ptr<Person>>> readPeople(string &fileName) {
     ifstream file = ifstream(fileName);
     if (!file.is_open()) {
         throw "Invalid file name: " + fileName + '\n';
