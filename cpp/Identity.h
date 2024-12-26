@@ -1,5 +1,5 @@
-#ifndef IDENTITY
-#define IDENTITY
+#ifndef IDENTITY_H
+#define IDENTITY_H
 
 #include <iostream>
 #include <string>

@@ -1,5 +1,5 @@
-#ifndef PERSON
-#define PERSON
+#ifndef PERSON_H
+#define PERSON_H
 
 #include "Identity.h"
 #include <iostream>
@@ -29,16 +29,16 @@ class Person {
     Person(const Identity &self);
 
     /**
-     * Returns a pointer to the Identity of the father.
-     * If there is no father, then a nullptr.
+     * Returns a weak_ptr to the Identity of the father.
+     * If there is no father, then a default weak_ptr
      * */
-    Identity *fatherId() const;
+    const Identity &getFather() const;
 
     /**
-     * Returns a pointer to the Identity of the mother.
-     * If there is no mother, then a nullptr.
+     * Returns a weak_ptr to the Identity of the mother.
+     * If there is no mother, then a default weak_ptr.
      * */
-    Identity *motherId() const;
+    const Identity &getMother() const;
 
     /**
      * Sets the member variable 'marked' to true.

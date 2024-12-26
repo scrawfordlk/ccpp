@@ -7,22 +7,26 @@
 #include <memory>
 #include <string>
 
-using std::array, std::vector, std::string, std::unique_ptr, std::make_unique, std::shared_ptr;
+using std::array;
+using std::ifstream;
+using std::string;
+using std::unique_ptr, std::make_unique, std::shared_ptr;
+using std::vector;
 
 /**
- * returns a unique_ptr to a new Person assembled from the given array of information
+ * Returns a unique_ptr to a new Person assembled from the given array of information.
  * */
 static std::unique_ptr<Person> constructPerson(const array<string, 11> &personInfo);
 
 /**
- * sorts the vector of unique_ptr's to Person using std::sort()
+ * Sorts the vector of unique_ptr's to Person using std::sort().
  * */
-static void sort(unique_ptr<vector<unique_ptr<Person>>> &people);
+static void sort(vector<shared_ptr<Person>> *people);
 
-unique_ptr<vector<shared_ptr<Person>>> readPeople(const char *fileName) {
-    std::ifstream file = std::ifstream(fileName);
+unique_ptr<vector<shared_ptr<Person>>> readPeople(string fileName) {
+    ifstream file = ifstream(fileName);
     if (!file.is_open()) {
-        throw string("Invalid file name: " + string(fileName) + '\n');
+        throw "Invalid file name: " + fileName + '\n';
     }
 
     auto people = make_unique<vector<shared_ptr<Person>>>();
@@ -34,14 +38,14 @@ unique_ptr<vector<shared_ptr<Person>>> readPeople(const char *fileName) {
         }
 
         shared_ptr<Person> person = constructPerson(input);
-        people->push_back(std::move(person));
+        people->push_back(person);
     }
     file.close();
 
     // remove last person who was added twice
     people->pop_back();
 
-    sort(people);
+    sort(people.get());
     return std::move(people);
 }
 
@@ -58,7 +62,9 @@ static std::unique_ptr<Person> constructPerson(const array<string, 11> &personFr
     }
 }
 
-static void sort(unique_ptr<vector<shared_ptr<Person>>> people) {
+// FRAGE zu std::sort: Wird beim Sortieren die Elemente per Kopie oder per Referenz getauscht? Oder
+// ist das nicht klar definiert?
+static void sort(vector<shared_ptr<Person>> *people) {
     std::sort(people->begin(), people->end(),
-              [](unique_ptr<Person> &p1, unique_ptr<Person> &p2) { return *p1 < *p2; });
+              [](shared_ptr<Person> p1, shared_ptr<Person> p2) { return *p1 < *p2; });
 }

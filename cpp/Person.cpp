@@ -16,12 +16,12 @@ Person::Person(const Identity &self) : self(self) {
     this->marked = false;
 }
 
-Identity *Person::fatherId() const {
-    return father;
+const Identity &Person::getFather() const {
+    return *father;
 }
 
-Identity *Person::motherId() const {
-    return mother;
+const Identity &Person::getMother() const {
+    return *mother;
 }
 
 void Person::mark() {
@@ -31,6 +31,8 @@ void Person::mark() {
 bool Person::isMarked() const {
     return marked;
 }
+
+// ------------- overloaded operators ---------------
 
 bool Person::operator==(const Person &other) const {
     return self == other.self;
