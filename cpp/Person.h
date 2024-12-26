@@ -12,22 +12,21 @@
  * */
 class Person {
   private:
-    std::unique_ptr<Identity> self;
-    std::unique_ptr<Identity> father;
-    std::unique_ptr<Identity> mother;
+    Identity self;
+    Identity *father;
+    Identity *mother;
     bool marked;
 
   public:
     /**
      * Person with both father and mother.
      * */
-    Person(std::unique_ptr<Identity> self, std::unique_ptr<Identity> father,
-           std::unique_ptr<Identity> mother);
+    Person(const Identity &self, const Identity &father, const Identity &mother);
 
     /*
      * Person with no known parents.
      * */
-    Person(std::unique_ptr<Identity> self);
+    Person(const Identity &self);
 
     // --------------- methods -----------------
 
@@ -45,12 +44,12 @@ class Person {
     /**
      * Sets the member variable 'marked' to true.
      * */
-    void setMark();
+    void mark();
 
     /**
      * Returns true if member variable 'marked' has been set to true.
      * */
-    bool isMarked();
+    bool isMarked() const;
 
     // ---------- overloaded operators -------------
 

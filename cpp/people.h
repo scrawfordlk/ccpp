@@ -5,4 +5,4 @@
 /**
  * returns unique_ptr to a sorted vector of unique_ptr's to all the Person's in the specified file
  * */
-std::unique_ptr<std::vector<std::unique_ptr<Person>>> readPeople(const char *fileName);
+std::unique_ptr<std::vector<std::shared_ptr<Person>>> readPeople(const char *fileName);

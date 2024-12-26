@@ -2,7 +2,6 @@
 #define IDENTITY
 
 #include <iostream>
-#include <memory>
 #include <string>
 
 /**
@@ -12,21 +11,20 @@
  * */
 class Identity {
   private:
-    std::unique_ptr<std::string> firstName;
-    std::unique_ptr<std::string> lastName;
-    std::unique_ptr<std::string> birthyear;
+    std::string firstName;
+    std::string lastName;
+    std::string birthyear;
 
   public:
     /**
      * Constructs an Identity object with the specified first name, last name and birthyear.
      * */
-    Identity(std::unique_ptr<std::string> firstName, std::unique_ptr<std::string> lastName,
-             std::unique_ptr<std::string> birthyear);
+    Identity(const std::string &firstName, const std::string &lastName,
+             const std::string &birthyear);
 
     /*
      * ----------- overloaded operators ---------------
      */
-
     bool operator==(const Identity &other) const;
     bool operator!=(const Identity &other) const;
     bool operator<(const Identity &other) const;
