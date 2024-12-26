@@ -11,4 +11,9 @@
  * */
 std::unique_ptr<People> readPeople(std::string &fileName);
 
+/**
+ * Writes the contents of the People collection into the specified file.
+ * */
+void writePeople(People *people, std::string fileName);
+
 #endif

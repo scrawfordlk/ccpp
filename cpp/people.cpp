@@ -8,7 +8,7 @@
 #include <string>
 
 using std::array;
-using std::ifstream;
+using std::ifstream, std::ofstream;
 using std::string;
 using std::unique_ptr, std::make_unique, std::shared_ptr;
 
@@ -39,8 +39,13 @@ unique_ptr<People> readPeople(string &fileName) {
     // remove last person who was added twice
     people->pop();
 
-    people->sort();
     return std::move(people);
+}
+
+void writePeople(People *people, std::string fileName) {
+    ofstream file = ofstream(fileName);
+    file << *people;
+    file.close();
 }
 
 static std::unique_ptr<Person> constructPerson(const array<string, 11> &personFragments) {
