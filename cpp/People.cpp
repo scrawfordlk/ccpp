@@ -11,16 +11,6 @@ using std::vector;
 
 People::People() : people(vector<shared_ptr<Person>>()) {}
 
-// TODO: Use ranged for loop
-People::People(People &people) {
-    this->people = vector<shared_ptr<Person>>();
-    for (auto iter = people.people.begin(); iter != people.people.end(); iter++) {
-        if ((*iter)->isMarked()) {
-            this->people.push_back(*iter);
-        }
-    }
-}
-
 void People::push(shared_ptr<Person> person) {
     people.push_back(person);
 }
@@ -37,8 +27,8 @@ void People::sort() {
 }
 
 ostream &operator<<(ostream &stream, const People &people) {
-    for (auto iter = people.people.begin(); iter != people.people.end(); iter++) {
-        stream << **iter << '\n';
+    for (const shared_ptr<Person> &person : people.people) {
+        stream << *person << '\n';
     }
 
     return stream;

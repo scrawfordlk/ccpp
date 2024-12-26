@@ -16,11 +16,6 @@ class People {
     People();
 
     /**
-     * Creates a new People collection with all Person's who are marked in the other people.
-     * */
-    People(People &people);
-
-    /**
      * Adds another Person to the People collection.
      * */
     void push(std::shared_ptr<Person> person);
