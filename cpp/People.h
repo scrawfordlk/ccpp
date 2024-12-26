@@ -1,11 +1,8 @@
-#ifndef PEOPLE_H
-#define PEOPLE_H
+#ifndef PEOPLE_CLASS_H
+#define PEOPLE_CLASS_H
 
 #include "Person.h"
-#include <algorithm>
 #include <memory>
-#include <ostream>
-#include <string>
 #include <vector>
 
 class People {
@@ -14,44 +11,36 @@ class People {
 
   public:
     /**
-     * Creates a new empty People object
+     * Creates a new empty People collection.
      * */
     People();
 
     /**
-     * Returns the number of Person's in this People collection.
+     * Creates a new People collection with all Person's who are marked in the other people.
      * */
-    int size() const;
+    People(People &people);
 
     /**
-     * Inserts the given person into the end of the People collection.
+     * Adds another Person to the People collection.
      * */
     void push(std::shared_ptr<Person> person);
 
     /**
-     * Sorts this People collection by birthyear, last name, first name
+     * Removes the last Person in the People collection. (In most cases the last Person added)
+     * */
+    void pop();
+
+    /**
+     * Sorts the People collection.
      * */
     void sort();
-
-    /**
-     * Returns new People collection with all relatives of the specified person.
-     * */
-    std::unique_ptr<People> getRelatives(std::string &firstName, std::string &lastName,
-                                         std::string &birthyear);
-
-  private:
-    /**
-     * Returns a unique_ptr to a new People collection of all Person's who are marked.
-     * */
-    std::unique_ptr<People> extractMarkedPeople() const;
-
-    /**
-     * Undos the marks of all marked Person's.
-     * */
-    void unmarkAll();
 
     friend std::ostream &operator<<(std::ostream &stream, const People &people);
 };
 
+/**
+ * Prints each Person seperated with a newline.
+ * */
 std::ostream &operator<<(std::ostream &stream, const People &people);
+
 #endif
