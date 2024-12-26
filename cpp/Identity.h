@@ -22,6 +22,11 @@ class Identity {
     Identity(const std::string &firstName, const std::string &lastName,
              const std::string &birthyear);
 
+    /**
+     * Default constructor for invalid Identities.
+     * */
+    Identity();
+
     /*
      * ----------- overloaded operators ---------------
      */

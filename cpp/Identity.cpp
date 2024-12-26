@@ -10,6 +10,8 @@ using std::string;
 Identity::Identity(const string &firstName, const string &lastName, const string &birthyear)
     : firstName(firstName), lastName(lastName), birthyear(birthyear) {}
 
+Identity::Identity() {}
+
 // ------------ overloaded operators ---------------
 
 bool Identity::operator==(const Identity &other) const {
