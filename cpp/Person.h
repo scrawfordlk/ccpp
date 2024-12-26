@@ -28,23 +28,27 @@ class Person {
      * */
     Person(const Identity &self);
 
-    // --------------- methods -----------------
+    /**
+     * Returns a pointer to the Identity of the father.
+     * If there is no father, then a nullptr.
+     * */
+    Identity *fatherId() const;
 
     /**
-     * Returns true if this Person is the child of the given reference to another person, otherwise
-     * returns false.
+     * Returns a pointer to the Identity of the mother.
+     * If there is no mother, then a nullptr.
      * */
-    bool isChildOf(const Person &person) const;
-
-    /**
-     * Returns true if this person is a parent of the other person, otherwise returns false
-     * */
-    bool isParentOf(const Person &person) const;
+    Identity *motherId() const;
 
     /**
      * Sets the member variable 'marked' to true.
      * */
     void mark();
+
+    /**
+     * Sets the member variable 'marked' to false.
+     * */
+    void removeMark();
 
     /**
      * Returns true if member variable 'marked' has been set to true.

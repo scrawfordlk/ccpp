@@ -16,14 +16,12 @@ Person::Person(const Identity &self) : self(self) {
     this->marked = false;
 }
 
-bool Person::isChildOf(const Person &person) const {
-    return (father != nullptr && *father == person.self) ||
-           (mother != nullptr && *mother == person.self);
+Identity *Person::fatherId() const {
+    return father;
 }
 
-bool Person::isParentOf(const Person &person) const {
-    return (person.father != nullptr && *person.father == self) ||
-           (person.mother != nullptr && *person.mother == self);
+Identity *Person::motherId() const {
+    return mother;
 }
 
 void Person::mark() {

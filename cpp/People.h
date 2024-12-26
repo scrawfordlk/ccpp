@@ -2,6 +2,7 @@
 #define PEOPLE_H
 
 #include "Person.h"
+#include <algorithm>
 #include <memory>
 #include <ostream>
 #include <string>
@@ -9,7 +10,7 @@
 
 class People {
   private:
-    std::unique_ptr<std::vector<std::shared_ptr<Person>>> people;
+    std::vector<std::shared_ptr<Person>> people;
 
   public:
     /**
@@ -28,49 +29,26 @@ class People {
     void push(std::shared_ptr<Person> person);
 
     /**
-     * Returns a weak_ptr to the Person at the specified index, if the index is out of bounds
-     * then a nullptr is returned
-     * */
-    std::weak_ptr<Person> at(int index) const;
-
-    /**
-     * Finds and returns a weak_ptr to the person matching the given arguments, if not found,
-     * returns default constructed weak_ptr
-     * */
-    std::weak_ptr<Person> findPerson(std::string firstName, std::string lastName,
-                                     std::string birthyear) const;
-
-    /**
      * Sorts this People collection by birthyear, last name, first name
      * */
     void sort();
 
     /**
-     * Returns new People collection with all relatives of the specified person
+     * Returns new People collection with all relatives of the specified person.
      * */
-    std::unique_ptr<People> findRelatives(std::shared_ptr<Person> person);
-
-    /**
-     * Returns true if this person is contained in this people collection
-     * */
-    bool exists(std::shared_ptr<Person> person) const;
+    std::unique_ptr<People> getRelatives(std::string &firstName, std::string &lastName,
+                                         std::string &birthyear);
 
   private:
     /**
-     * Gets a person in the People collection.
-     * It is assumed that the person does exist.
+     * Returns a unique_ptr to a new People collection of all Person's who are marked.
      * */
-    std::weak_ptr<Person> getPerson(std::shared_ptr<Person> person) const;
+    std::unique_ptr<People> extractMarkedPeople() const;
 
     /**
-     * Marks all relatives of this person. It also sorts the collection as a side effect
+     * Undos the marks of all marked Person's.
      * */
-    void markRelatives(std::shared_ptr<Person> person);
-
-    /**
-     * Returns a new Person collection with all Person's who are marked
-     * */
-    std::unique_ptr<People> extractMarked();
+    void unmarkAll();
 
     friend std::ostream &operator<<(std::ostream &stream, const People &people);
 };
