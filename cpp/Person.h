@@ -30,16 +30,21 @@ class Person {
     Person(const Identity &self);
 
     /**
-     * Returns a weak_ptr to the Identity of the father.
-     * If there is no father, then a default weak_ptr
+     * Returns a pointer to the Identity of the father.
+     * If there is no father, then a nullptr
      * */
     const Identity *getFather() const;
 
     /**
-     * Returns a weak_ptr to the Identity of the mother.
-     * If there is no mother, then a default weak_ptr.
+     * Returns a pointer to the Identity of the mother.
+     * If there is no mother, then a nullptr
      * */
     const Identity *getMother() const;
+
+    /**
+     * Returns true if this person is the parent of the other person.
+     * */
+    bool isParentOf(const Person &other) const;
 
     /**
      * Sets the member variable 'marked' to true.
@@ -64,6 +69,17 @@ class Person {
     bool operator>(const Person &other) const;
     bool operator<=(const Person &other) const;
     bool operator>=(const Person &other) const;
+
+  private:
+    /**
+     * Returns true if this person is the father of the other person.
+     * */
+    bool isFatherOf(const Person &other) const;
+
+    /**
+     * Returns true if this person is the mother of the other person.
+     * */
+    bool isMotherOf(const Person &other) const;
 
     friend std::ostream &operator<<(std::ostream &stream, const Person &person);
 };

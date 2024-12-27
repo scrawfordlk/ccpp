@@ -17,6 +17,10 @@ const Identity *Person::getMother() const {
     return hasKnownParents ? &mother : nullptr;
 }
 
+bool Person::isParentOf(const Person &other) const {
+    return this->isFatherOf(other) || this->isMotherOf(other);
+}
+
 void Person::mark() {
     marked = true;
 }
@@ -49,6 +53,14 @@ bool Person::operator<=(const Person &other) const {
 
 bool Person::operator>=(const Person &other) const {
     return self >= other.self;
+}
+
+bool Person::isFatherOf(const Person &other) const {
+    return self == other.father;
+}
+
+bool Person::isMotherOf(const Person &other) const {
+    return self == other.mother;
 }
 
 ostream &operator<<(ostream &stream, const Person &person) {
