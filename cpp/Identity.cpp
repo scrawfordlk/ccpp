@@ -46,7 +46,7 @@ int Identity::compareTo(const Identity &other) const {
     }
 
     if (lastName != other.lastName) {
-        return lastName.compare(other.birthyear);
+        return lastName.compare(other.lastName);
     }
 
     return firstName.compare(other.firstName);
