@@ -9,11 +9,11 @@
 /**
  * Returns unique_ptr to a sorted vector of unique_ptr's to all the Person's in the specified file.
  * */
-std::unique_ptr<People> readPeople(std::string &fileName);
+std::unique_ptr<People> readPeople(const std::string &fileName);
 
 /**
  * Writes the contents of the People collection into the specified file.
  * */
-void writePeople(People *people, std::string fileName);
+void writePeople(const People &people, const std::string &fileName);
 
 #endif
