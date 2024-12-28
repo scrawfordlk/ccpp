@@ -33,14 +33,12 @@ class People {
     /**
      * Returns all relatives of the specified person in this People collection.
      * */
-    std::unique_ptr<People> getRelatives(std::string &firstName, std::string &lastName,
-                                         std::string &birthyear);
+    std::unique_ptr<People> getRelatives(const std::string &firstName, const std::string &lastName,
+                                         const std::string &birthyear);
 
   private:
     /**
-     * Finds and returns the (pointer to) person who is equal to the given person.
-     * Returns nullptr if the person does not exist.
-     * Side effect: People collection is going to be sorted.
+     * sorts people
      * */
     std::shared_ptr<Person> findPerson(const Identity &identity);
 

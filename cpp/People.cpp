@@ -12,6 +12,10 @@ using std::shared_ptr, std::make_shared, std::unique_ptr, std::make_unique;
 using std::string;
 using std::vector;
 
+/**
+ * */
+static bool comparePerson(shared_ptr<Person> p1, shared_ptr<Person> p2);
+
 People::People() : people(vector<shared_ptr<Person>>()) {}
 
 void People::push(shared_ptr<Person> person) {
@@ -25,11 +29,11 @@ void People::pop() {
 }
 
 void People::sort() {
-    std::sort(people.begin(), people.end(),
-              [](shared_ptr<Person> p1, shared_ptr<Person> p2) { return *p1 < *p2; });
+    std::sort(people.begin(), people.end(), comparePerson);
 }
 
-unique_ptr<People> People::getRelatives(string &firstName, string &lastName, string &birthyear) {
+unique_ptr<People> People::getRelatives(const string &firstName, const string &lastName,
+                                        const string &birthyear) {
     Identity id = Identity(firstName, lastName, birthyear);
     shared_ptr<Person> person = findPerson(id);
     if (person == nullptr) {
@@ -44,33 +48,29 @@ shared_ptr<Person> People::findPerson(const Identity &identity) {
     sort();
     auto dummy = make_shared<Person>(identity);
 
-    if (!std::binary_search(
-            people.begin(), people.end(), dummy,
-            [](shared_ptr<Person> p1, shared_ptr<Person> p2) { return *p1 < *p2; })) {
+    if (!std::binary_search(people.begin(), people.end(), dummy, comparePerson)) {
         return nullptr;
     }
 
-    return *std::lower_bound(
-        people.begin(), people.end(), dummy,
-        [](shared_ptr<Person> p1, shared_ptr<Person> p2) { return *p1 < *p2; });
+    return *std::lower_bound(people.begin(), people.end(), dummy, comparePerson);
 }
 
 void People::markRelatives(shared_ptr<Person> person) {
     const Identity *fatherId = person->getFather();
     shared_ptr<Person> father = findPerson(*fatherId);
-    /*if (father != nullptr) {*/
-    /*    father->mark();*/
-    /*    markRelatives(father);*/
-    /*}*/
-    /**/
-    /*const Identity *motherId = person->getMother();*/
-    /*shared_ptr<Person> mother = findPerson(*motherId);*/
-    /*if (mother != nullptr) {*/
-    /*    mother->mark();*/
-    /*    markRelatives(mother);*/
-    /*}*/
-    /**/
-    /*markChildren(person);*/
+    if (father != nullptr) {
+        father->mark();
+        markRelatives(father);
+    }
+
+    const Identity *motherId = person->getMother();
+    shared_ptr<Person> mother = findPerson(*motherId);
+    if (mother != nullptr) {
+        mother->mark();
+        markRelatives(mother);
+    }
+
+    markChildren(person);
 }
 
 void People::markChildren(shared_ptr<Person> person) {
@@ -96,9 +96,14 @@ unique_ptr<People> People::extractMarkedPeople() const {
 
 // --------------- overloaded operators --------------------
 ostream &operator<<(ostream &stream, const People &people) {
-    for (const shared_ptr<Person> person : people.people) {
+    for (shared_ptr<Person> person : people.people) {
         stream << *person << '\n';
     }
 
     return stream;
+}
+
+// ---------------- static functions ---------------------
+static bool comparePerson(shared_ptr<Person> p1, shared_ptr<Person> p2) {
+    return *p1 < *p2;
 }
