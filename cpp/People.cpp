@@ -80,8 +80,7 @@ void People::markRelatives(shared_ptr<Person> person) {
 
 void People::markChildren(shared_ptr<Person> person) {
     shared_ptr<Person> child;
-    for (auto iter = people.begin(); iter != people.end(); iter++) {
-        child = *iter;
+    for (shared_ptr<Person> child : people) {
         if (person->isParentOf(*child) && !child->isMarked()) {
             child->mark();
             markChildren(child);
