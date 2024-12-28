@@ -5,6 +5,10 @@
 #include <memory>
 #include <vector>
 
+/**
+ * Class that stores a collection of Person's.
+ * << is overloaded.
+ * */
 class People {
   private:
     std::vector<std::shared_ptr<Person>> people;
