@@ -38,7 +38,7 @@ unique_ptr<People> readPeople(const string &fileName) {
     // remove last person who was added twice
     people->pop();
 
-    return std::move(people);
+    return people;
 }
 
 void writePeople(const People &people, const std::string &fileName) {

@@ -91,7 +91,7 @@ unique_ptr<People> People::extractMarkedPeople() const {
             markedPeople->push(person);
         }
     }
-    return std::move(markedPeople);
+    return markedPeople;
 }
 
 // --------------- overloaded operators --------------------
