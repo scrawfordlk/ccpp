@@ -1,13 +1,14 @@
-#ifndef IDENTITY_H
-#define IDENTITY_H
+#ifndef IDENTITY_CLASS_H
+#define IDENTITY_CLASS_H
 
 #include <iostream>
 #include <string>
 
 /**
  * Class that stores the first name, last name and birthyear of a Person, which in combination are
- * uniquely identifiable. All comparison operators are overloaded.
- * << is also overloaded.
+ * uniquely identifiable.
+ * All comparison operators are overloaded.
+ * << is overloaded.
  * */
 class Identity {
   private:
@@ -23,12 +24,12 @@ class Identity {
              const std::string &birthyear);
 
     /**
-     * Default constructor for invalid Identities.
+     * Default constructor for an invalid Identity.
      * */
     Identity();
 
     /*
-     * ----------- overloaded operators ---------------
+     * ----------- comparison operators ---------------
      */
     bool operator==(const Identity &other) const;
     bool operator!=(const Identity &other) const;

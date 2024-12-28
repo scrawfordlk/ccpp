@@ -13,8 +13,11 @@ using std::string;
 using std::vector;
 
 /**
+ * Evaluates the operation < for two shared_ptr's to a Person each.
  * */
 static bool comparePerson(shared_ptr<Person> p1, shared_ptr<Person> p2);
+
+// ------------------- public ---------------------
 
 People::People() : people(vector<shared_ptr<Person>>()) {}
 
@@ -43,6 +46,8 @@ unique_ptr<People> People::getRelatives(const string &firstName, const string &l
     markRelatives(person);
     return extractMarkedPeople();
 }
+
+// --------------------- private ----------------------
 
 shared_ptr<Person> People::findPerson(const Identity &identity) {
     sort();
@@ -94,7 +99,8 @@ unique_ptr<People> People::extractMarkedPeople() const {
     return markedPeople;
 }
 
-// --------------- overloaded operators --------------------
+// ---------------- non member functions --------------------
+
 ostream &operator<<(ostream &stream, const People &people) {
     for (shared_ptr<Person> person : people.people) {
         stream << *person << '\n';
@@ -104,6 +110,7 @@ ostream &operator<<(ostream &stream, const People &people) {
 }
 
 // ---------------- static functions ---------------------
+
 static bool comparePerson(shared_ptr<Person> p1, shared_ptr<Person> p2) {
     return *p1 < *p2;
 }

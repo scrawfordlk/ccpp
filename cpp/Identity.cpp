@@ -12,7 +12,7 @@ Identity::Identity(const string &firstName, const string &lastName, const string
 
 Identity::Identity() {}
 
-// ------------ overloaded operators ---------------
+// ------------ comparison operators ---------------
 
 bool Identity::operator==(const Identity &other) const {
     return compareTo(other) == 0;
@@ -52,7 +52,7 @@ int Identity::compareTo(const Identity &other) const {
     return firstName.compare(other.firstName);
 }
 
-// --------------- non member function ------------------
+// --------------- non member functions ------------------
 
 ostream &operator<<(ostream &stream, const Identity &identity) {
     return stream << identity.firstName << " " << identity.lastName << " " << identity.birthyear;

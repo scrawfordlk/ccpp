@@ -11,12 +11,12 @@ class People {
 
   public:
     /**
-     * Creates a new empty People collection.
+     * Constructs an empty People collection.
      * */
     People();
 
     /**
-     * Adds another Person to the People collection.
+     * Adds the specified Person to the People collection.
      * */
     void push(std::shared_ptr<Person> person);
 
@@ -38,7 +38,8 @@ class People {
 
   private:
     /**
-     * sorts people
+     * Tries to find a Person via an Identity. If the Person exists, then a share_ptr to that Person
+     * is returned. Otherwise returns a nullptr.
      * */
     std::shared_ptr<Person> findPerson(const Identity &identity);
 
@@ -48,12 +49,12 @@ class People {
     void markRelatives(std::shared_ptr<Person> person);
 
     /**
-     * Marks all the children of the given person.
+     * Marks all the children of the specified person.
      * */
     void markChildren(std::shared_ptr<Person> person);
 
     /**
-     * Returns a unique_ptr to a new People collection with all People, who were marked
+     * Returns a unique_ptr to a new People collection with all marked People.
      * */
     std::unique_ptr<People> extractMarkedPeople() const;
 

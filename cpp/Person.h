@@ -1,12 +1,12 @@
-#ifndef PERSON_H
-#define PERSON_H
+#ifndef PERSON_CLASS_H
+#define PERSON_CLASS_H
 
 #include "Identity.h"
 #include <iostream>
 
 /**
  * Class that stores the identification of the person, their father and mother.
- * Also contains a member variable 'marked' that can be set to be marked.
+ * Each Person can be set to be marked.
  * All comparison operators are overloaded.
  * << is overloaded.
  * */
@@ -19,7 +19,7 @@ class Person {
 
   public:
     /**
-     * Constructs the Person with the specified parents.
+     * Constructs the Person with the specified parameters.
      * */
     Person(const Identity &self, const Identity &father, const Identity &mother);
 
@@ -28,8 +28,14 @@ class Person {
      * */
     Person(const Identity &self);
 
+    /**
+     * Returns a constant pointer to the father of this Person.
+     * */
     const Identity *getFather() const;
 
+    /**
+     * Returns a constant pointer to the mother of this Person.
+     * */
     const Identity *getMother() const;
 
     /**
@@ -47,7 +53,7 @@ class Person {
      * */
     bool isMarked() const;
 
-    // ---------- overloaded operators -------------
+    // ---------- comparison operators -------------
 
     bool operator==(const Person &other) const;
     bool operator!=(const Person &other) const;

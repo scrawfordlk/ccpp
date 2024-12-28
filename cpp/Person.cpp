@@ -4,6 +4,8 @@
 
 using std::ostream;
 
+// -------------------- public -----------------------
+
 Person::Person(const Identity &self, const Identity &father, const Identity &mother)
     : self(self), father(father), mother(mother), marked(false) {}
 
@@ -29,7 +31,7 @@ bool Person::isMarked() const {
     return marked;
 }
 
-// ------------- overloaded operators ---------------
+// ------------- comparison operators ---------------
 
 bool Person::operator==(const Person &other) const {
     return self == other.self;
@@ -55,7 +57,7 @@ bool Person::operator>=(const Person &other) const {
     return self >= other.self;
 }
 
-// --------------- private methods ------------------
+// --------------- private ------------------
 
 bool Person::isFatherOf(const Person &other) const {
     return self == other.father;
