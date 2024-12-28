@@ -3,12 +3,12 @@
 
 #include "Identity.h"
 #include <iostream>
-#include <memory>
 
 /**
  * Class that stores the identification of the person, their father and mother.
  * Also contains a member variable 'marked' that can be set to be marked.
  * All comparison operators are overloaded.
+ * << is overloaded.
  * */
 class Person {
   private:
@@ -16,29 +16,20 @@ class Person {
     Identity father;
     Identity mother;
     bool marked;
-    bool hasKnownParents;
 
   public:
     /**
-     * Person with both father and mother.
+     * Constructs the Person with the specified parents.
      * */
     Person(const Identity &self, const Identity &father, const Identity &mother);
 
-    /*
-     * Person with no known parents.
+    /**
+     * Create a person without specifying any parents.
      * */
     Person(const Identity &self);
 
-    /**
-     * Returns a pointer to the Identity of the father.
-     * If there is no father, then a nullptr
-     * */
     const Identity *getFather() const;
 
-    /**
-     * Returns a pointer to the Identity of the mother.
-     * If there is no mother, then a nullptr
-     * */
     const Identity *getMother() const;
 
     /**
@@ -50,11 +41,6 @@ class Person {
      * Sets the member variable 'marked' to true.
      * */
     void mark();
-
-    /**
-     * Sets the member variable 'marked' to false.
-     * */
-    void removeMark();
 
     /**
      * Returns true if member variable 'marked' has been set to true.
