@@ -29,14 +29,14 @@ class Person {
     Person(const Identity &self);
 
     /**
-     * Returns a constant pointer to the father of this Person.
+     * Returns a constant reference to the father of this Person.
      * */
-    const Identity *getFather() const;
+    const Identity &getFather() const;
 
     /**
-     * Returns a constant pointer to the mother of this Person.
+     * Returns a constant reference to the mother of this Person.
      * */
-    const Identity *getMother() const;
+    const Identity &getMother() const;
 
     /**
      * Returns true if this person is the parent of the other person.

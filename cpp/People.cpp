@@ -19,7 +19,9 @@ static bool comparePerson(shared_ptr<Person> p1, shared_ptr<Person> p2);
 
 // ------------------- public ---------------------
 
-People::People() : people(vector<shared_ptr<Person>>()) {}
+People::People() : people(vector<shared_ptr<Person>>()) {
+    people.reserve(20);
+}
 
 void People::push(shared_ptr<Person> person) {
     people.push_back(person);
@@ -61,15 +63,15 @@ shared_ptr<Person> People::findPerson(const Identity &identity) {
 }
 
 void People::markRelatives(shared_ptr<Person> person) {
-    const Identity *fatherId = person->getFather();
-    shared_ptr<Person> father = findPerson(*fatherId);
+    Identity fatherId = person->getFather();
+    shared_ptr<Person> father = findPerson(fatherId);
     if (father != nullptr) {
         father->mark();
         markRelatives(father);
     }
 
-    const Identity *motherId = person->getMother();
-    shared_ptr<Person> mother = findPerson(*motherId);
+    Identity motherId = person->getMother();
+    shared_ptr<Person> mother = findPerson(motherId);
     if (mother != nullptr) {
         mother->mark();
         markRelatives(mother);

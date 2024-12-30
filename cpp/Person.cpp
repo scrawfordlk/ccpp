@@ -15,12 +15,12 @@ bool Person::isParentOf(const Person &other) const {
     return isFatherOf(other) || isMotherOf(other);
 }
 
-const Identity *Person::getFather() const {
-    return &father;
+const Identity &Person::getFather() const {
+    return father;
 }
 
-const Identity *Person::getMother() const {
-    return &mother;
+const Identity &Person::getMother() const {
+    return mother;
 }
 
 void Person::mark() {
