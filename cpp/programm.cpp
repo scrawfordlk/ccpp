@@ -1,5 +1,4 @@
 #include "People.h"
-#include "people.h"
 #include <iostream>
 #include <memory>
 #include <string>
@@ -21,16 +20,16 @@ int main(int argc, char *argv[]) {
     string lastName = argv[4];
     string birthyear = argv[5];
 
-    unique_ptr<People> people;
+    People people;
     unique_ptr<People> relatives;
     try {
-        people = readPeople(inFileName);
-        relatives = people->getRelatives(firstName, lastName, birthyear);
+        people.readPeople(inFileName);
+        relatives = people.getRelatives(firstName, lastName, birthyear);
     } catch (string errorMessage) {
         std::cerr << errorMessage << std::endl;
         return 1;
     }
 
     relatives->sort();
-    writePeople(*relatives, outFileName);
+    relatives->writePeople(outFileName);
 }

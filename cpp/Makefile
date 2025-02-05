@@ -2,7 +2,7 @@ CXXFLAGS=-pedantic -Wall
 CC=$(CXX)
 
 PROGRAMS=programm
-OBJECTS=Identity.o People.o Person.o people.o
+OBJECTS=Identity.o People.o
 ALLOBJECTS=$(OBJECTS) $(patsubst %,%.o,$(PROGRAMS))
 
 default: $(PROGRAMS)
