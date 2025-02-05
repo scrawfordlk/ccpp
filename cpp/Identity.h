@@ -21,22 +21,40 @@ class Identity {
      * Constructs an Identity object with the specified first name, last name and birthyear.
      * */
     Identity(const std::string &firstName, const std::string &lastName,
-             const std::string &birthyear);
+             const std::string &birthyear)
+        : firstName(firstName), lastName(lastName), birthyear(birthyear) {}
 
     /**
      * Default constructor for an invalid Identity.
      * */
-    Identity();
+    Identity() {}
 
     /*
      * ----------- comparison operators ---------------
      */
-    bool operator==(const Identity &other) const;
-    bool operator!=(const Identity &other) const;
-    bool operator<(const Identity &other) const;
-    bool operator>(const Identity &other) const;
-    bool operator<=(const Identity &other) const;
-    bool operator>=(const Identity &other) const;
+    bool operator==(const Identity &other) const {
+        return compareTo(other) == 0;
+    }
+
+    bool operator!=(const Identity &other) const {
+        return compareTo(other) != 0;
+    }
+
+    bool operator<(const Identity &other) const {
+        return compareTo(other) < 0;
+    }
+
+    bool operator>(const Identity &other) const {
+        return compareTo(other) > 0;
+    }
+
+    bool operator<=(const Identity &other) const {
+        return compareTo(other) <= 0;
+    }
+
+    bool operator>=(const Identity &other) const {
+        return compareTo(other) >= 0;
+    }
 
   private:
     /**
@@ -49,6 +67,8 @@ class Identity {
     friend std::ostream &operator<<(std::ostream &stream, const Identity &identity);
 };
 
-std::ostream &operator<<(std::ostream &stream, const Identity &identity);
+inline std::ostream &operator<<(std::ostream &stream, const Identity &identity) {
+    return stream << identity.firstName << " " << identity.lastName << " " << identity.birthyear;
+}
 
 #endif
