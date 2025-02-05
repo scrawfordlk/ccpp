@@ -2,6 +2,7 @@
 #define PEOPLE_CLASS_H
 
 #include "Person.h"
+#include <algorithm>
 #include <memory>
 #include <vector>
 
@@ -40,8 +41,20 @@ class People {
     std::unique_ptr<People> getRelatives(const std::string &firstName, const std::string &lastName,
                                          const std::string &birthyear);
 
+    /**
+     * Adds all people in the specified file to this People collection
+     * */
+    void readPeople(const std::string &fileName);
+
+    /**
+     * (Over)Writes the contents of the People object into the specified file.
+     * */
+    void writePeople(const std::string &fileName);
+
   private:
     /**
+     * Assumes that this collection is sorted
+     *
      * Tries to find a Person via an Identity. If the Person exists, then a share_ptr to that Person
      * is returned. Otherwise returns a nullptr.
      * */

@@ -2,12 +2,14 @@
 #include "Identity.h"
 #include "Person.h"
 #include <algorithm>
+#include <array>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
 
-using std::ostream;
+using std::ostream, std::ifstream, std::ofstream;
 using std::shared_ptr, std::make_shared, std::unique_ptr, std::make_unique;
 using std::string;
 using std::vector;
@@ -99,6 +101,36 @@ unique_ptr<People> People::extractMarkedPeople() const {
         }
     }
     return markedPeople;
+}
+
+void People::readPeople(const string &fileName) {
+    ifstream file = ifstream(fileName);
+    if (!file.is_open()) {
+        throw "Invalid file name: " + fileName;
+    }
+
+    std::array<string, 11> input;
+    while (!file.eof()) {
+
+        for (int i = 0; i < 11; i++) {
+            file >> input[i];
+        }
+
+        Identity id = Identity(input[0], input[1], input[3]);
+        Identity fatherId = Identity(input[5], input[6], input[7]);
+        Identity motherId = Identity(input[8], input[9], input[10]);
+        push(make_shared<Person>(id, fatherId, motherId));
+    }
+    file.close();
+
+    // remove last person who was added twice
+    pop();
+}
+
+void People::writePeople(const std::string &fileName) {
+    ofstream file = ofstream(fileName);
+    file << this;
+    file.close();
 }
 
 // ---------------- non member functions --------------------
