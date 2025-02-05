@@ -4,39 +4,18 @@
 #include <algorithm>
 #include <array>
 #include <fstream>
-#include <iostream>
 #include <memory>
 #include <string>
-#include <vector>
 
-using std::ostream, std::ifstream, std::ofstream;
+using std::ifstream;
 using std::shared_ptr, std::make_shared, std::unique_ptr, std::make_unique;
 using std::string;
-using std::vector;
-
-/**
- * Evaluates the operation < for two shared_ptr's to a Person each.
- * */
-static bool comparePerson(shared_ptr<Person> p1, shared_ptr<Person> p2);
 
 // ------------------- public ---------------------
 
-People::People() : people(vector<shared_ptr<Person>>()) {
-    people.reserve(20);
-}
-
-void People::push(shared_ptr<Person> person) {
-    people.push_back(person);
-}
-
-void People::pop() {
-    if (people.size() >= 1) {
-        people.pop_back();
-    }
-}
-
 void People::sort() {
-    std::sort(people.begin(), people.end(), comparePerson);
+    std::sort(people.begin(), people.end(),
+              [](shared_ptr<Person> p1, shared_ptr<Person> p2) { return *p1 < *p2; });
 }
 
 unique_ptr<People> People::getRelatives(const string &firstName, const string &lastName,
@@ -57,7 +36,8 @@ unique_ptr<People> People::getRelatives(const string &firstName, const string &l
 shared_ptr<Person> People::findPerson(const Identity &identity) {
     auto dummy = make_shared<Person>(identity);
     shared_ptr<Person> person =
-        *std::lower_bound(people.begin(), people.end(), dummy, comparePerson);
+        *std::lower_bound(people.begin(), people.end(), dummy,
+                          [](shared_ptr<Person> p1, shared_ptr<Person> p2) { return *p1 < *p2; });
     return *person == *dummy ? person : nullptr;
 }
 
@@ -125,26 +105,4 @@ void People::readPeople(const string &fileName) {
 
     // remove last person who was added twice
     pop();
-}
-
-void People::writePeople(const std::string &fileName) {
-    ofstream file = ofstream(fileName);
-    file << this;
-    file.close();
-}
-
-// ---------------- non member functions --------------------
-
-ostream &operator<<(ostream &stream, const People &people) {
-    for (shared_ptr<Person> person : people.people) {
-        stream << *person << '\n';
-    }
-
-    return stream;
-}
-
-// ---------------- static functions ---------------------
-
-static bool comparePerson(shared_ptr<Person> p1, shared_ptr<Person> p2) {
-    return *p1 < *p2;
 }

@@ -3,6 +3,7 @@
 
 #include "Person.h"
 #include <algorithm>
+#include <fstream>
 #include <memory>
 #include <vector>
 
@@ -18,17 +19,25 @@ class People {
     /**
      * Constructs an empty People collection.
      * */
-    People();
+    People() : people(std::vector<std::shared_ptr<Person>>()) {
+        people.reserve(20);
+    }
 
     /**
      * Adds the specified Person to the People collection.
      * */
-    void push(std::shared_ptr<Person> person);
+    void push(std::shared_ptr<Person> person) {
+        people.push_back(person);
+    }
 
     /**
      * Removes the last Person in the People collection. (In most cases the last Person added)
      * */
-    void pop();
+    void pop() {
+        if (people.size() >= 1) {
+            people.pop_back();
+        }
+    }
 
     /**
      * Sorts the People collection.
@@ -49,7 +58,11 @@ class People {
     /**
      * (Over)Writes the contents of the People object into the specified file.
      * */
-    void writePeople(const std::string &fileName);
+    void writePeople(const std::string &fileName) {
+        std::ofstream file = std::ofstream(fileName);
+        file << *this;
+        file.close();
+    }
 
   private:
     /**
@@ -81,6 +94,12 @@ class People {
 /**
  * Prints each Person seperated with a newline.
  * */
-std::ostream &operator<<(std::ostream &stream, const People &people);
+inline std::ostream &operator<<(std::ostream &stream, const People &people) {
+    for (std::shared_ptr<Person> person : people.people) {
+        stream << *person << '\n';
+    }
+
+    return stream;
+}
 
 #endif
