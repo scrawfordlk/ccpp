@@ -6,6 +6,8 @@
 #include <memory>
 #include <vector>
 
+// Das ist komisch.  Wieso nochmal ein people.h/c mit kleinem Anfangsbuchstaben?  Diese zwei Funktionen wäre besser als Methoden von People aufgehoben.  Rade
+
 /**
  * Returns a unique_ptr to a People object which is based off of the specified file.
  * */

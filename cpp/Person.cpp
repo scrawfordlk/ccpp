@@ -6,6 +6,7 @@ using std::ostream;
 
 // -------------------- public -----------------------
 
+// Kurze Funktionen sollten durchaus im Headerfile in der Klassendeklaration implementiert werden, damit Inlining möglich ist.  Sonst ist C++ sehr langsam.  Rade
 Person::Person(const Identity &self, const Identity &father, const Identity &mother)
     : self(self), father(father), mother(mother), marked(false) {}
 

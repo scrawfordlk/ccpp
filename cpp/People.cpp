@@ -52,14 +52,14 @@ unique_ptr<People> People::getRelatives(const string &firstName, const string &l
 // --------------------- private ----------------------
 
 shared_ptr<Person> People::findPerson(const Identity &identity) {
-    sort();
+    sort();  // Jedesmal sortieren vor dem Suchen, ist nicht so geschickt.  Rade
     auto dummy = make_shared<Person>(identity);
 
     if (!std::binary_search(people.begin(), people.end(), dummy, comparePerson)) {
         return nullptr;
     }
 
-    return *std::lower_bound(people.begin(), people.end(), dummy, comparePerson);
+    return *std::lower_bound(people.begin(), people.end(), dummy, comparePerson);  // Geht das nicht, ohne dass man zweimal sucht?  Rade
 }
 
 void People::markRelatives(shared_ptr<Person> person) {
@@ -83,7 +83,7 @@ void People::markRelatives(shared_ptr<Person> person) {
 void People::markChildren(shared_ptr<Person> person) {
     shared_ptr<Person> child;
     for (shared_ptr<Person> child : people) {
-        if (person->isParentOf(*child) && !child->isMarked()) {
+        if (person->isParentOf(*child) && !child->isMarked()) {  // Es wäre halt schneller, wenn die Personen Pointer zu den Eltern hätten und hier gleich alle Personen markiert würden, die einen markierten Elternteil haben.  Und das wiederholen, bis nichts mehr neu markiert wurde.  Rade
             child->mark();
             markChildren(child);
         }
