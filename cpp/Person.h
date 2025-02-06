@@ -60,6 +60,14 @@ class Person {
         mother = person;
     }
 
+    std::shared_ptr<Person> getFather() const {
+        return father;
+    }
+
+    std::shared_ptr<Person> getMother() const {
+        return mother;
+    }
+
     /**
      * Sets the member variable 'marked' to true.
      * */

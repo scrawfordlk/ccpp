@@ -2,7 +2,6 @@
 #define PEOPLE_CLASS_H
 
 #include "Person.h"
-#include <algorithm>
 #include <fstream>
 #include <memory>
 #include <vector>
@@ -100,11 +99,6 @@ class People {
 /**
  * Prints each Person seperated with a newline.
  * */
-inline std::ostream &operator<<(std::ostream &stream, const People &people) {
-    for (std::shared_ptr<Person> person : people.people) {
-        stream << *person << '\n';
-    }
-    return stream;
-}
+std::ostream &operator<<(std::ostream &stream, const People &people);
 
 #endif

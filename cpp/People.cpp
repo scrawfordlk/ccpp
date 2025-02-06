@@ -32,72 +32,6 @@ unique_ptr<People> People::getRelatives(const string &firstName, const string &l
     return extractMarkedPeople();
 }
 
-// --------------------- private ----------------------
-
-shared_ptr<Person> People::findPerson(const Identity &identity) {
-    auto dummy = make_shared<Person>(identity);
-    shared_ptr<Person> person =
-        *std::lower_bound(people.begin(), people.end(), dummy,
-                          [](shared_ptr<Person> p1, shared_ptr<Person> p2) { return *p1 < *p2; });
-    return *person == *dummy ? person : nullptr;
-}
-
-void People::assignParents() {
-    for (shared_ptr<Person> person : people) {
-        person->setFather(findPerson(person->getFatherId()));
-        person->setMother(findPerson(person->getMotherId()));
-    }
-}
-
-void People::markRelatives(shared_ptr<Person> person) {
-    Identity fatherId = person->getFatherId();
-    shared_ptr<Person> father = findPerson(fatherId);
-    if (father != nullptr) {
-        person->setFather(father);
-        father->mark();
-        markRelatives(father);
-    }
-
-    Identity motherId = person->getMotherId();
-    shared_ptr<Person> mother = findPerson(motherId);
-    if (mother != nullptr) {
-        person->setMother(mother);
-        mother->mark();
-        markRelatives(mother);
-    }
-
-    markDescendants();
-}
-
-void People::markDescendants() {
-    bool markedMore = true;
-    while (markedMore) {
-        markedMore = false;
-
-        for (shared_ptr<Person> child : people) {
-            if (child->parentIsMarked() && !child->isMarked()) {
-                // Es wäre halt schneller, wenn die Personen Pointer zu
-                // den Eltern hätten und hier gleich alle Personen
-                // markiert würden, die einen markierten Elternteil
-                // haben.  Und das wiederholen, bis nichts mehr neu
-                // markiert wurde.  Rade
-                child->mark();
-                markedMore = true;
-            }
-        }
-    }
-}
-
-unique_ptr<People> People::extractMarkedPeople() const {
-    auto markedPeople = make_unique<People>();
-    for (shared_ptr<Person> person : people) {
-        if (person->isMarked()) {
-            markedPeople->push(person);
-        }
-    }
-    return markedPeople;
-}
-
 void People::readPeople(const string &fileName) {
     ifstream file = ifstream(fileName);
     if (!file.is_open()) {
@@ -120,4 +54,70 @@ void People::readPeople(const string &fileName) {
 
     // remove last person who was added twice
     pop();
+}
+
+// --------------------- private ----------------------
+
+shared_ptr<Person> People::findPerson(const Identity &identity) {
+    auto dummy = make_shared<Person>(identity);
+    shared_ptr<Person> person =
+        *std::lower_bound(people.begin(), people.end(), dummy,
+                          [](shared_ptr<Person> p1, shared_ptr<Person> p2) { return *p1 < *p2; });
+    return *person == *dummy ? person : nullptr;
+}
+
+void People::assignParents() {
+    for (shared_ptr<Person> person : people) {
+        person->setFather(findPerson(person->getFatherId()));
+        person->setMother(findPerson(person->getMotherId()));
+    }
+}
+
+void People::markRelatives(shared_ptr<Person> person) {
+    if (person->getFather() != nullptr) {
+        person->getFather()->mark();
+        markRelatives(person->getFather());
+    }
+
+    if (person->getMother() != nullptr) {
+        person->getMother()->mark();
+        markRelatives(person->getMother());
+    }
+
+    markDescendants();
+}
+
+void People::markDescendants() {
+    bool markedMore = true;
+    while (markedMore) {
+        markedMore = false;
+
+        for (shared_ptr<Person> child : people) {
+            if (child->parentIsMarked() && !child->isMarked()) {
+                child->mark();
+                markedMore = true;
+            }
+        }
+    }
+}
+
+unique_ptr<People> People::extractMarkedPeople() const {
+    auto markedPeople = make_unique<People>();
+    for (shared_ptr<Person> person : people) {
+        if (person->isMarked()) {
+            markedPeople->push(person);
+        }
+    }
+
+    return markedPeople;
+}
+
+// ----------------------- (friend) functions ---------------------------------
+
+std::ostream &operator<<(std::ostream &stream, const People &people) {
+    for (std::shared_ptr<Person> person : people.people) {
+        stream << *person << '\n';
+    }
+
+    return stream;
 }
