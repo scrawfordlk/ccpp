@@ -4,7 +4,6 @@
 #include <string>
 
 using std::string;
-using std::unique_ptr;
 
 int main(int argc, char *argv[]) {
 
@@ -20,16 +19,12 @@ int main(int argc, char *argv[]) {
     string lastName = argv[4];
     string birthyear = argv[5];
 
-    People people;
-    unique_ptr<People> relatives;
+    People people = People();
     try {
         people.readPeople(inFileName);
-        relatives = people.getRelatives(firstName, lastName, birthyear);
+        people.getRelatives(firstName, lastName, birthyear)->writePeople(outFileName);
     } catch (string errorMessage) {
         std::cerr << errorMessage << std::endl;
         return 1;
     }
-
-    relatives->sort();
-    relatives->writePeople(outFileName);
 }
