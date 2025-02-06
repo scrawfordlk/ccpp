@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <array>
 #include <fstream>
+#include <iostream>
 #include <memory>
 #include <string>
 
@@ -27,6 +28,7 @@ unique_ptr<People> People::getRelatives(const string &firstName, const string &l
         throw "This person does not exist: " + firstName + " " + lastName + ", born " + birthyear;
     }
 
+    assignParents();
     markRelatives(person);
     return extractMarkedPeople();
 }
@@ -41,34 +43,48 @@ shared_ptr<Person> People::findPerson(const Identity &identity) {
     return *person == *dummy ? person : nullptr;
 }
 
+void People::assignParents() {
+    for (shared_ptr<Person> person : people) {
+        person->setFather(findPerson(person->getFatherId()));
+        person->setMother(findPerson(person->getMotherId()));
+    }
+}
+
 void People::markRelatives(shared_ptr<Person> person) {
-    Identity fatherId = person->getFather();
+    Identity fatherId = person->getFatherId();
     shared_ptr<Person> father = findPerson(fatherId);
     if (father != nullptr) {
+        person->setFather(father);
         father->mark();
         markRelatives(father);
     }
 
-    Identity motherId = person->getMother();
+    Identity motherId = person->getMotherId();
     shared_ptr<Person> mother = findPerson(motherId);
     if (mother != nullptr) {
+        person->setMother(mother);
         mother->mark();
         markRelatives(mother);
     }
 
-    markChildren(person);
+    markDescendants();
 }
 
-void People::markChildren(shared_ptr<Person> person) {
-    shared_ptr<Person> child;
-    for (shared_ptr<Person> child : people) {
-        if (person->isParentOf(*child) &&
-            !child->isMarked()) { // Es wäre halt schneller, wenn die Personen Pointer zu den Eltern
-                                  // hätten und hier gleich alle Personen markiert würden, die einen
-                                  // markierten Elternteil haben.  Und das wiederholen, bis nichts
-                                  // mehr neu markiert wurde.  Rade
-            child->mark();
-            markChildren(child);
+void People::markDescendants() {
+    bool markedMore = true;
+    while (markedMore) {
+        markedMore = false;
+
+        for (shared_ptr<Person> child : people) {
+            if (child->parentIsMarked() && !child->isMarked()) {
+                // Es wäre halt schneller, wenn die Personen Pointer zu
+                // den Eltern hätten und hier gleich alle Personen
+                // markiert würden, die einen markierten Elternteil
+                // haben.  Und das wiederholen, bis nichts mehr neu
+                // markiert wurde.  Rade
+                child->mark();
+                markedMore = true;
+            }
         }
     }
 }

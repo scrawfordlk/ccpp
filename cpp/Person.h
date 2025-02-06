@@ -3,6 +3,7 @@
 
 #include "Identity.h"
 #include <iostream>
+#include <memory>
 
 /**
  * Class that stores the identification of the person, their father and mother.
@@ -13,8 +14,10 @@
 class Person {
   private:
     Identity self;
-    Identity father;
-    Identity mother;
+    Identity fatherId;
+    Identity motherId;
+    std::shared_ptr<Person> father;
+    std::shared_ptr<Person> mother;
     bool marked;
 
   public:
@@ -22,32 +25,39 @@ class Person {
      * Constructs the Person with the specified parameters.
      * */
     Person(const Identity &self, const Identity &father, const Identity &mother)
-        : self(self), father(father), mother(mother), marked(false) {}
+        : self(self), fatherId(father), motherId(mother), marked(false) {}
 
     /**
      * Create a person without specifying any parents.
      * */
     Person(const Identity &self) : self(self), marked(false) {}
 
-    /**
-     * Returns a constant reference to the father of this Person.
-     * */
-    const Identity &getFather() const {
-        return father;
+    /*
+     * Returns reference to the id of the father of this Person
+     **/
+    Identity &getFatherId() {
+        return fatherId;
+    }
+
+    /*
+     * Returns reference to the id of the mother of this Person
+     **/
+    Identity &getMotherId() {
+        return motherId;
     }
 
     /**
-     * Returns a constant reference to the mother of this Person.
-     * */
-    const Identity &getMother() const {
-        return mother;
+     * Sets a pointer to the father
+     **/
+    void setFather(std::shared_ptr<Person> person) {
+        father = person;
     }
 
     /**
-     * Returns true if this person is the parent of the other person.
-     * */
-    bool isParentOf(const Person &other) const {
-        return isFatherOf(other) || isMotherOf(other);
+     * Sets a pointer to the mother
+     **/
+    void setMother(std::shared_ptr<Person> person) {
+        mother = person;
     }
 
     /**
@@ -62,6 +72,18 @@ class Person {
      * */
     bool isMarked() const {
         return marked;
+    }
+
+    /**
+     * Returns true if member variable 'marked' has been set to true for a parent
+     * */
+    bool parentIsMarked() const;
+
+    /**
+     * Returns true if the id corresponds to the id of this Person
+     */
+    bool isId(const Identity &identity) {
+        return self == identity;
     }
 
     // ---------- comparison operators -------------
@@ -88,21 +110,6 @@ class Person {
 
     bool operator>=(const Person &other) const {
         return self >= other.self;
-    }
-
-  private:
-    /**
-     * Returns true if this person is the father of the other person.
-     * */
-    bool isFatherOf(const Person &other) const {
-        return self == other.father;
-    }
-
-    /**
-     * Returns true if this person is the mother of the other person.
-     * */
-    bool isMotherOf(const Person &other) const {
-        return self == other.mother;
     }
 
     friend std::ostream &operator<<(std::ostream &stream, const Person &person);

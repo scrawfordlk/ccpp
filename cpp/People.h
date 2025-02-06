@@ -73,18 +73,20 @@ class People {
      * */
     std::shared_ptr<Person> findPerson(const Identity &identity);
 
+    void assignParents();
+
     /**
      * Marks all relatives of the specified person.
      * */
     void markRelatives(std::shared_ptr<Person> person);
 
     /**
-     * Marks all the children of the specified person.
+     * Marks all descendants of marked people
      * */
-    void markChildren(std::shared_ptr<Person> person);
+    void markDescendants();
 
     /**
-     * Returns a unique_ptr to a new People collection with all marked People.
+     * Returns a unique_ptr to a new People collection with all marked people.
      * */
     std::unique_ptr<People> extractMarkedPeople() const;
 
