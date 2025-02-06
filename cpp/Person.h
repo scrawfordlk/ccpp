@@ -75,16 +75,9 @@ class Person {
     }
 
     /**
-     * Returns true if member variable 'marked' has been set to true for a parent
+     * Returns true if a parent has been marked ('marked' set to true)
      * */
     bool parentIsMarked() const;
-
-    /**
-     * Returns true if the id corresponds to the id of this Person
-     */
-    bool isId(const Identity &identity) {
-        return self == identity;
-    }
 
     // ---------- comparison operators -------------
 

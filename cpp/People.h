@@ -46,6 +46,7 @@ class People {
 
     /**
      * Returns all relatives of the specified person in this People collection.
+     * Side effect: sorts the Peopel collection
      * */
     std::unique_ptr<People> getRelatives(const std::string &firstName, const std::string &lastName,
                                          const std::string &birthyear);
@@ -59,7 +60,7 @@ class People {
      * (Over)Writes the contents of the People object into the specified file.
      * */
     void writePeople(const std::string &fileName) {
-        std::ofstream file = std::ofstream(fileName);
+        auto file = std::ofstream(fileName);
         file << *this;
         file.close();
     }
@@ -68,11 +69,14 @@ class People {
     /**
      * Assumes that this collection is sorted
      *
-     * Tries to find a Person via an Identity. If the Person exists, then a share_ptr to that Person
-     * is returned. Otherwise returns a nullptr.
+     * Tries to find a Person via an Identity. If the Person exists, then a shared_ptr to that
+     * Person is returned. Otherwise returns a nullptr.
      * */
     std::shared_ptr<Person> findPerson(const Identity &identity);
 
+    /**
+     * Finds and assigns the parents of each Person to the Person object (as pointers)
+     **/
     void assignParents();
 
     /**
@@ -100,7 +104,6 @@ inline std::ostream &operator<<(std::ostream &stream, const People &people) {
     for (std::shared_ptr<Person> person : people.people) {
         stream << *person << '\n';
     }
-
     return stream;
 }
 
