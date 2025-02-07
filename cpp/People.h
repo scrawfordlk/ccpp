@@ -45,7 +45,7 @@ class People {
 
     /**
      * Returns all relatives of the specified person in this People collection.
-     * Side effect: sorts the Peopel collection
+     * Side effect: sorts the People collection
      * */
     std::unique_ptr<People> getRelatives(const std::string &firstName, const std::string &lastName,
                                          const std::string &birthyear);
@@ -81,7 +81,7 @@ class People {
     /**
      * Marks all relatives of the specified person.
      * */
-    void markRelatives(std::shared_ptr<Person> person);
+    void markAncestors(std::shared_ptr<Person> person);
 
     /**
      * Marks all descendants of marked people

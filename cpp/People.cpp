@@ -28,7 +28,8 @@ unique_ptr<People> People::getRelatives(const string &firstName, const string &l
     }
 
     assignParents();
-    markRelatives(person);
+    markAncestors(person);
+    markDescendants();
     return extractMarkedPeople();
 }
 
@@ -73,18 +74,16 @@ void People::assignParents() {
     }
 }
 
-void People::markRelatives(shared_ptr<Person> person) {
+void People::markAncestors(shared_ptr<Person> person) {
     if (person->getFather() != nullptr) {
         person->getFather()->mark();
-        markRelatives(person->getFather());
+        markAncestors(person->getFather());
     }
 
     if (person->getMother() != nullptr) {
         person->getMother()->mark();
-        markRelatives(person->getMother());
+        markAncestors(person->getMother());
     }
-
-    markDescendants();
 }
 
 void People::markDescendants() {
