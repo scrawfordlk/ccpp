@@ -60,10 +60,18 @@ class Person {
         mother = person;
     }
 
+    /**
+     * Returns a pointer to the father Person if he exists,
+     * else returns a nullptr
+     **/
     std::shared_ptr<Person> getFather() const {
         return father;
     }
 
+    /**
+     * Returns a pointer to the mother Person if she exists,
+     * else returns a nullptr
+     **/
     std::shared_ptr<Person> getMother() const {
         return mother;
     }
