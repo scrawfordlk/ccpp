@@ -33,7 +33,7 @@ unique_ptr<People> People::getRelatives(const string &firstName, const string &l
     return extractMarkedPeople();
 }
 
-void People::readPeople(const string &fileName) {
+void People::readFile(const string &fileName) {
     ifstream file = ifstream(fileName);
     if (!file.is_open()) {
         throw "Invalid file name: " + fileName;

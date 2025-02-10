@@ -53,12 +53,12 @@ class People {
     /**
      * Adds all people in the specified file to this People collection
      * */
-    void readPeople(const std::string &fileName);
+    void readFile(const std::string &fileName);
 
     /**
      * (Over)Writes the contents of the People object into the specified file.
      * */
-    void writePeople(const std::string &fileName) {
+    void writeFile(const std::string &fileName) {
         auto file = std::ofstream(fileName);
         file << *this;
         file.close();
