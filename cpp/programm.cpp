@@ -1,6 +1,5 @@
 #include "People.h"
 #include <iostream>
-#include <memory>
 #include <string>
 
 using std::string;
@@ -13,16 +12,16 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    string inFileName = argv[1];
-    string outFileName = "verwandte.dat";
+    string inputName = argv[1];
+    string outputName = "verwandte.dat";
     string firstName = argv[3];
     string lastName = argv[4];
     string birthyear = argv[5];
 
     People people = People();
     try {
-        people.readFile(inFileName);
-        people.getRelatives(firstName, lastName, birthyear)->writeFile(outFileName);
+        people.readFile(inputName);
+        people.getRelatives(firstName, lastName, birthyear)->writeFile(outputName);
     } catch (string errorMessage) {
         std::cerr << errorMessage << std::endl;
         return 1;
