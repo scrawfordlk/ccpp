@@ -21,8 +21,8 @@ int main(int argc, char *argv[]) {
 
     People people = People();
     try {
-        people.readPeople(inFileName);
-        people.getRelatives(firstName, lastName, birthyear)->writePeople(outFileName);
+        people.readFile(inFileName);
+        people.getRelatives(firstName, lastName, birthyear)->writeFile(outFileName);
     } catch (string errorMessage) {
         std::cerr << errorMessage << std::endl;
         return 1;
