@@ -42,7 +42,7 @@ void People::readFile(const string &fileName) {
     std::array<string, 11> input;
     while (!file.eof()) {
 
-        for (int i = 0; i < input.size(); i++) {
+        for (int i = 0; i < 11; i++) {
             file >> input[i];
         }
 
