@@ -7,7 +7,7 @@
 #include <vector>
 
 /**
- * Class that stores a collection of Person's.
+ * Class that stores a collection of Person objects.
  * << is overloaded.
  * */
 class People {
@@ -56,9 +56,9 @@ class People {
     void readFile(const std::string &fileName);
 
     /**
-     * (Over)Writes the contents of the People object into the specified file.
+     * (Over)Writes the file with the contents of the People object.
      * */
-    void writeFile(const std::string &fileName) {
+    void writeFile(const std::string &fileName) const {
         auto file = std::ofstream(fileName);
         file << *this;
         file.close();
@@ -74,17 +74,17 @@ class People {
     std::shared_ptr<Person> findPerson(const Identity &identity);
 
     /**
-     * Finds and assigns the parents of each Person to the Person object (as pointers)
+     * Finds and assigns pointers to parents for each Person.
      **/
     void assignParents();
 
     /**
-     * Marks all relatives of the specified person.
+     * Marks ancestors of specified person.
      * */
-    void markAncestors(std::shared_ptr<Person> person);
+    void markAncestors(const Person &person);
 
     /**
-     * Marks all descendants of marked people
+     * Marks all descendants of marked people.
      * */
     void markDescendants();
 

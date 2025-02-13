@@ -28,7 +28,7 @@ unique_ptr<People> People::getRelatives(const string &firstName, const string &l
     }
 
     assignParents();
-    markAncestors(person);
+    markAncestors(*person);
     markDescendants();
     return extractMarkedPeople();
 }
@@ -42,7 +42,7 @@ void People::readFile(const string &fileName) {
     std::array<string, 11> input;
     while (!file.eof()) {
 
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < input.size(); i++) {
             file >> input[i];
         }
 
@@ -74,15 +74,15 @@ void People::assignParents() {
     }
 }
 
-void People::markAncestors(shared_ptr<Person> person) {
-    if (person->getFather() != nullptr) {
-        person->getFather()->mark();
-        markAncestors(person->getFather());
+void People::markAncestors(const Person &person) {
+    if (person.getFather() != nullptr) {
+        person.getFather()->mark();
+        markAncestors(*person.getFather());
     }
 
-    if (person->getMother() != nullptr) {
-        person->getMother()->mark();
-        markAncestors(person->getMother());
+    if (person.getMother() != nullptr) {
+        person.getMother()->mark();
+        markAncestors(*person.getMother());
     }
 }
 
