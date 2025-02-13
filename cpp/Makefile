@@ -1,15 +1,17 @@
-CXXFLAGS=-pedantic -Wall
+# -MP adds phony target for each dependency
+# -MMD generates dependency files (%.d)
+CXXFLAGS=-pedantic -Wall -Wextra -g -MMD -MP
 CC=$(CXX)
 
 PROGRAMS=programm
-OBJECTS=Identity.o People.o
+OBJECTS=Identity.o People.o Person.o
 ALLOBJECTS=$(OBJECTS) $(patsubst %,%.o,$(PROGRAMS))
 
 default: $(PROGRAMS)
 
-# In C++ müssen auch die Abhängigkeiten von den Header-Dateien berücksichtigt werden.  Rade
-$(PROGRAMS): $(ALLOBJECTS)
-	$(CXX) -o $(PROGRAMS) $(ALLOBJECTS) 
+programm: $(OBJECTS)
 
 clean:
-	rm -f $(ALLOBJECTS) $(PROGRAMS)
+	rm -f $(ALLOBJECTS) $(ALLOBJECTS:%.o=%.d) $(PROGRAMS)
+
+-include $(ALLOBJECTS:%.o=%.d)
