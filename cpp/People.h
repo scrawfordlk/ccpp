@@ -19,7 +19,7 @@ class People {
      * Constructs an empty People collection.
      * */
     People() : people(std::vector<std::shared_ptr<Person>>()) {
-        people.reserve(20);
+        people.reserve(32);
     }
 
     /**
